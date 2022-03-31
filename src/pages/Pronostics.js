@@ -1,6 +1,7 @@
 import React from "react";
 import { useGames } from "../hooks/useGames";
 import Game from "../components/Game";
+import { Container } from "react-bootstrap";
 
 export default function Pronostics() {
   const { currentGames } = useGames();
@@ -8,7 +9,7 @@ export default function Pronostics() {
   const handlePronosticClick = () => {};
 
   return (
-    <>
+    <Container>
       <h2>Games</h2>
       {currentGames.map((game) => {
         return (
@@ -18,6 +19,6 @@ export default function Pronostics() {
         );
       })}
       <button onClick={handlePronosticClick}>Submit all</button>
-    </>
+    </Container>
   );
 }
