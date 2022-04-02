@@ -7,11 +7,9 @@ export default function Game({ gameId, teams, category, startTime }) {
     <>
       {teams.map((team, index) => {
         return (
-          <>
-            <Col xs={6} key={team.teamId}>
-              <Team order={index} gameId={gameId} {...team} />
-            </Col>
-          </>
+          <Col xs={6} key={team.teamId}>
+            <Team order={index} gameId={gameId} {...team} />
+          </Col>
         );
       })}
     </>

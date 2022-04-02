@@ -29,7 +29,6 @@ export default function Team({
   const flagOrder = order === 0 ? 1 : 3;
   const nameOrder = 2;
   const guessOrder = order === 0 ? 3 : 1;
-  console.log(`order:${order}, name:${name}, nameOrder:${nameOrder}`);
 
   return (
     <StyledRow className="align-items-center my-2">

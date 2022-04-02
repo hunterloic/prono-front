@@ -1,7 +1,7 @@
 import React from "react";
 import { useGames } from "../hooks/useGames";
 import Game from "../components/Game";
-import { Card, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function Pronostics() {
@@ -11,25 +11,37 @@ export default function Pronostics() {
     alert("click!");
   };
 
+  const categories = currentGames.reduce((map, game) => {
+    if (!map[game.category.categoryId]) {
+      map[game.category.categoryId] = [];
+    }
+    map[game.category.categoryId].push(game);
+    return map;
+  }, []);
+
   return (
     <Container>
       <Button className="my-2" variant="success" onClick={handlePronosticClick}>
         Submit
       </Button>
-      <Card className="my-2 bg-light">
-        <Card.Body>
-          <Card.Title>Group 1</Card.Title>
-          <Card.Text>
-            {currentGames.map((game) => {
-              return (
-                <Row key={game.gameId}>
-                  <Game {...game} />
-                </Row>
-              );
-            })}
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      <Row>
+        {categories.map((category, index) => (
+          <Col lg="3" md="6" key={index}>
+            <Card className="m-2 bg-light">
+              <Card.Body>
+                <Card.Title>{category[0].category.categoryName}</Card.Title>
+                <Card.Text as="div">
+                  {category.map((game) => (
+                    <Row key={game.gameId}>
+                      <Game {...game} />
+                    </Row>
+                  ))}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </Container>
   );
 }
