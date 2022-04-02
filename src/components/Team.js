@@ -31,22 +31,36 @@ export default function Team({
   const guessOrder = order === 0 ? 3 : 1;
 
   return (
-    <StyledRow className="align-items-center my-2">
-      <StyledCol
-        className="align-items-center"
-        sm={{ order: flagOrder, span: 4 }}
-      >
+    // <StyledRow className="align-items-center my-2">
+    //   <StyledCol
+    //     className="align-items-center"
+    //     sm={{ order: flagOrder, span: 4 }}
+    //   >
+    //     <CountryFlag code={code} xs={{ order: flagOrder }} />
+    //   </StyledCol>
+    //   <StyledCol sm={{ order: nameOrder, span: 4 }}>{name}</StyledCol>
+    //   <StyledCol sm={{ order: guessOrder, span: 4 }}>
+    //     <Form.Control
+    //       placeholder=""
+    //       value={pronostic || ""}
+    //       onChange={handlePronosticChange}
+    //     />
+    //   </StyledCol>
+    // </StyledRow>
+
+    <>
+      <p>
         <CountryFlag code={code} xs={{ order: flagOrder }} />
-      </StyledCol>
-      <StyledCol sm={{ order: nameOrder, span: 4 }}>{name}</StyledCol>
-      <StyledCol sm={{ order: guessOrder, span: 4 }}>
+      </p>
+      <p>{name}</p>
+      <p>
         <Form.Control
           placeholder=""
           value={pronostic || ""}
           onChange={handlePronosticChange}
         />
-      </StyledCol>
-    </StyledRow>
+      </p>
+    </>
   );
 }
 

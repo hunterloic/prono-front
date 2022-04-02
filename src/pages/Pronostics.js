@@ -26,16 +26,18 @@ export default function Pronostics() {
       </Button>
       <Row>
         {categories.map((category, index) => (
-          <Col lg="3" xs="6" key={index}>
+          <Col md="6" xs="12" key={index}>
             <Card className="m-2 bg-light">
               <Card.Body>
-                <Card.Title>{category[0].category.categoryName}</Card.Title>
+                <Card.Title>{category[0].category.name}</Card.Title>
                 <Card.Text as="div">
                   {category.map((game) => (
                     // <Row key={game.gameId}>
                     //   <Game {...game} />
                     // </Row>
-                    <Game {...game} />
+                    <div className="d-flex flex-column">
+                      <Game {...game} />
+                    </div>
                   ))}
                 </Card.Text>
               </Card.Body>
