@@ -5,11 +5,11 @@ const loadGames = () => {
       startTime: 1647687600,
       category: {
         categoryId: 1,
-        categoryname: 'Group A',
+        categoryname: "Group A",
       },
       teams: [
-        { teamId: 1, name: 'France', code: 'fr' }, // goals:1, pronostic:1
-        { teamId: 2, name: 'England', code: 'gb-eng' }, // goals:1, pronostic:1
+        { teamId: 1, name: "France", code: "fr" }, // goals:1, pronostic:1
+        { teamId: 2, name: "England", code: "gb-eng" }, // goals:1, pronostic:1
       ],
     },
     {
@@ -17,11 +17,11 @@ const loadGames = () => {
       startTime: 1647687600,
       category: {
         categoryId: 1,
-        categoryname: 'Group A',
+        categoryname: "Group A",
       },
       teams: [
-        { teamId: 3, name: 'Spain', code: 'es' },
-        { teamId: 4, name: 'Germany', code: 'de' },
+        { teamId: 3, name: "Spain", code: "es" },
+        { teamId: 4, name: "Germany", code: "de" },
       ],
     },
   ];

@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect } from 'react';
-import styled from 'styled-components';
-import { useGames } from '../hooks/useGames';
-import CountryFlag from './CountryFlag';
+import React, { Fragment, useEffect } from "react";
+import { Col, Form, Row } from "react-bootstrap";
+import styled from "styled-components";
+import { useGames } from "../hooks/useGames";
+import CountryFlag from "./CountryFlag";
 
 export default function Team({
   gameId,
@@ -16,7 +17,7 @@ export default function Team({
 
   const handlePronosticChange = (e) => {
     dispatchGames({
-      type: 'SET_PRONOSTIC',
+      type: "SET_PRONOSTIC",
       payload: {
         gameId: gameId,
         teamId: teamId,
@@ -25,23 +26,34 @@ export default function Team({
     });
   };
 
-  const elements = [
-    // todo : use labels
-    <span>{name}</span>,
-    <CountryFlag code={code} />,
-    <input
-      type="text"
-      value={pronostic || ''}
-      onChange={handlePronosticChange}
-    />,
-    <span value={result} />,
-  ];
+  const flagOrder = order === 0 ? 1 : 3;
+  const nameOrder = 2;
+  const guessOrder = order === 0 ? 3 : 1;
+  console.log(`order:${order}, name:${name}, nameOrder:${nameOrder}`);
 
   return (
-    <>
-      {(order !== 0 ? elements.reverse() : elements).map((element, index) => {
-        return <Fragment key={index}>{element}</Fragment>;
-      })}
-    </>
+    <StyledRow className="align-items-center my-2">
+      <StyledCol
+        className="align-items-center"
+        sm={{ order: flagOrder, span: 4 }}
+      >
+        <CountryFlag code={code} xs={{ order: flagOrder }} />
+      </StyledCol>
+      <StyledCol sm={{ order: nameOrder, span: 4 }}>{name}</StyledCol>
+      <StyledCol sm={{ order: guessOrder, span: 4 }}>
+        <Form.Control
+          placeholder=""
+          value={pronostic || ""}
+          onChange={handlePronosticChange}
+        />
+      </StyledCol>
+    </StyledRow>
   );
 }
+
+const StyledRow = styled(Row)``;
+
+const StyledCol = styled(Col)`
+  border: solid black 1px;
+  height: 50px;
+`;
