@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import styled from "styled-components";
+import { Form } from "react-bootstrap";
 import { useGames } from "../hooks/useGames";
 import CountryFlag from "./CountryFlag";
+import CountryName from "./CountryName";
 
 export default function Team({
   gameId,
@@ -31,42 +31,15 @@ export default function Team({
   const guessOrder = order === 0 ? 3 : 1;
 
   return (
-    // <StyledRow className="align-items-center my-2">
-    //   <StyledCol
-    //     className="align-items-center"
-    //     sm={{ order: flagOrder, span: 4 }}
-    //   >
-    //     <CountryFlag code={code} xs={{ order: flagOrder }} />
-    //   </StyledCol>
-    //   <StyledCol sm={{ order: nameOrder, span: 4 }}>{name}</StyledCol>
-    //   <StyledCol sm={{ order: guessOrder, span: 4 }}>
-    //     <Form.Control
-    //       placeholder=""
-    //       value={pronostic || ""}
-    //       onChange={handlePronosticChange}
-    //     />
-    //   </StyledCol>
-    // </StyledRow>
-
     <>
-      <p>
-        <CountryFlag code={code} xs={{ order: flagOrder }} />
-      </p>
-      <p>{name}</p>
-      <p>
-        <Form.Control
-          placeholder=""
-          value={pronostic || ""}
-          onChange={handlePronosticChange}
-        />
-      </p>
+      <CountryFlag code={code} className={`m-1 order-${flagOrder}`} />
+      <CountryName className={`m-1 order-${nameOrder}`} name={name} />
+      <Form.Control
+        className={`p-1 m-1 order-${guessOrder}`}
+        style={{ width: "2em" }}
+        value={pronostic || ""}
+        onChange={handlePronosticChange}
+      />
     </>
   );
 }
-
-const StyledRow = styled(Row)``;
-
-const StyledCol = styled(Col)`
-  border: solid black 1px;
-  height: 50px;
-`;
