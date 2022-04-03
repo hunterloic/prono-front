@@ -2,10 +2,11 @@ const loadGames = () => {
   return [
     {
       gameId: 1,
-      startTime: 1647687600,
+      startTime: 1667469600,
       category: {
         categoryId: 1,
         name: "Group A",
+        order: 1,
       },
       teams: [
         { teamId: 1, name: "France", code: "fr" }, // goals:1, pronostic:1
@@ -14,10 +15,11 @@ const loadGames = () => {
     },
     {
       gameId: 2,
-      startTime: 1647687600,
+      startTime: 1667462400,
       category: {
         categoryId: 1,
         name: "Group A",
+        order: 1,
       },
       teams: [
         { teamId: 3, name: "Spain", code: "es" },
@@ -26,10 +28,11 @@ const loadGames = () => {
     },
     {
       gameId: 3,
-      startTime: 1647687600,
+      startTime: 1667469600,
       category: {
         categoryId: 2,
         name: "Group B",
+        order: 3,
       },
       teams: [
         { teamId: 3, name: "Spain", code: "es" },
@@ -38,10 +41,11 @@ const loadGames = () => {
     },
     {
       gameId: 4,
-      startTime: 1647687600,
+      startTime: 1667469600,
       category: {
         categoryId: 3,
         name: "Group C",
+        order: 2,
       },
       teams: [
         { teamId: 3, name: "Spain", code: "es" },
@@ -50,10 +54,11 @@ const loadGames = () => {
     },
     {
       gameId: 5,
-      startTime: 1647687600,
+      startTime: 1667469600,
       category: {
         categoryId: 3,
         name: "Group C",
+        order: 2,
       },
       teams: [
         { teamId: 3, name: "Spain", code: "es" },
