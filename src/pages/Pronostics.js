@@ -22,7 +22,7 @@ export default function Pronostics() {
   return (
     <Container>
       <Button className="my-2" variant="success" onClick={handlePronosticClick}>
-        Submit
+        Submita
       </Button>
       <Row>
         {categories.map((category, index) => (
