@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Stack } from "react-bootstrap";
 import { useGames } from "../hooks/useGames";
 import CountryFlag from "./CountryFlag";
 import CountryName from "./CountryName";
@@ -31,7 +31,7 @@ export default function Team({
   const guessOrder = order === 0 ? 3 : 1;
 
   return (
-    <>
+    <Stack direction="horizontal">
       <CountryFlag code={code} className={`m-1 order-${flagOrder}`} />
       <CountryName className={`m-1 order-${nameOrder}`} name={name} />
       <Form.Control
@@ -40,6 +40,6 @@ export default function Team({
         value={pronostic || ""}
         onChange={handlePronosticChange}
       />
-    </>
+    </Stack>
   );
 }
