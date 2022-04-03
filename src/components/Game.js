@@ -1,71 +1,75 @@
 import React from "react";
-import { Form } from "react-bootstrap";
+import { Form, Stack, Button } from "react-bootstrap";
 import Team from "./Team";
 import { epochToDate } from "../utils/date";
 import CountryFlag from "../components/CountryFlag";
 
 export default function Game({ gameId, teams, category, startTime }) {
   return (
-    // <div
-    //   className="d-flex flex-column my-1"
-    //   style={{ border: "black solid 1px", backgroundColor: "red" }}
-    // >
-
-    <div className="d-flex flex-row justify-content-start">
-      <div
-        className="d-flex flex-row justify-content-end"
-        style={{ border: "black solid 1px", backgroundColor: "yellow" }}
-      >
+    <div
+      className="d-flex flex-column my-1"
+      style={{ border: "black solid 1px", backgroundColor: "red" }}
+    >
+      <div>{epochToDate("ddd, mmm dS, yyyy, h:MM TT", startTime)}</div>
+      <div className="d-flex flex-row justify-content-start">
         <div
-          className="align-self-center order-1 m-1"
-          style={{ backgroundColor: "orange" }}
-        >
-          <CountryFlag code="fr" />
-        </div>
-        <div
-          className="align-self-center order-2 m-1"
+          className="d-flex flex-row justify-content-end"
           style={{
-            width: "4.5em",
-            backgroundColor: "green",
-            wordBreak: "break-all",
+            border: "black solid 1px",
+            backgroundColor: "yellow",
           }}
         >
-          {teams[0].name}
+          aa
+          {/* <div
+            className="align-self-center order-1 m-1"
+            style={{ backgroundColor: "orange" }}
+          >
+            <CountryFlag code="fr" />
+          </div>
+          <div
+            className="align-self-center order-2 m-1"
+            style={{
+              width: "4.5em",
+              backgroundColor: "green",
+              wordBreak: "break-all",
+            }}
+          >
+            {teams[0].name}
+          </div>
+          <div className="align-self-center order-3 m-1">
+            <Form.Control className="p-1" style={{ width: "2em" }} />
+          </div> */}
         </div>
-        <div className="align-self-center order-3 m-1">
-          <Form.Control className="p-1" style={{ width: "2em" }} />
-        </div>
-      </div>
 
-      {/* -------------- */}
+        {/* -------------- */}
 
-      <div
-        className="d-flex flex-row justify-content-end"
-        style={{ border: "black solid 1px", backgroundColor: "yellow" }}
-      >
         <div
-          className="align-self-center order-3 m-1"
-          style={{ backgroundColor: "orange" }}
+          className="d-flex flex-row justify-content-end"
+          style={{ border: "black solid 1px", backgroundColor: "yellow" }}
         >
-          <CountryFlag code="fr" />
-        </div>
-        <div
-          className="align-self-center order-2 m-1"
-          style={{
-            width: "4.5em",
-            backgroundColor: "green",
-            wordBreak: "break-all",
-          }}
-        >
-          {teams[0].name}
-        </div>
-        <div className="align-self-center order-1 m-1">
-          <Form.Control className="p-1" style={{ width: "30px" }} />
+          bb
+          {/* <div
+            className="align-self-center order-3 m-1"
+            style={{ backgroundColor: "orange" }}
+          >
+            <CountryFlag code="fr" />
+          </div>
+          <div
+            className="align-self-center order-2 m-1"
+            style={{
+              width: "4.5em",
+              backgroundColor: "green",
+              wordBreak: "break-all",
+            }}
+          >
+            {teams[0].name}
+          </div>
+          <div className="align-self-center order-1 m-1">
+            <Form.Control className="p-1" style={{ width: "30px" }} />
+          </div> */}
         </div>
       </div>
     </div>
-
-    // </div>
 
     // <div
     //   className="d-flex flex-column bg-info my-1"

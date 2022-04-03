@@ -1,7 +1,7 @@
 import React from "react";
 import { useGames } from "../hooks/useGames";
 import Game from "../components/Game";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 
 export default function Pronostics() {
@@ -27,20 +27,15 @@ export default function Pronostics() {
       <Row>
         {categories.map((category, index) => (
           <Col md="6" xs="12" key={index}>
-            <Card className="m-2 bg-light">
-              <Card.Body>
-                <Card.Title>{category[0].category.name}</Card.Title>
-                <Card.Text as="div">
-                  {category.map((game) => (
-                    // <Row key={game.gameId}>
-                    //   <Game {...game} />
-                    // </Row>
-                    <div className="d-flex flex-column">
-                      <Game {...game} />
-                    </div>
-                  ))}
-                </Card.Text>
-              </Card.Body>
+            <Card className="my-2">
+              <Card.Header>{category[0].category.name}</Card.Header>
+              <ListGroup>
+                {category.map((game, index) => (
+                  <ListGroup.Item key={index}>
+                    <Game {...game} />
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
             </Card>
           </Col>
         ))}
