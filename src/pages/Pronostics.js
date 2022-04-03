@@ -28,10 +28,12 @@ export default function Pronostics() {
         {categories.map((category, index) => (
           <Col md="6" xs="12" key={index}>
             <Card className="my-2">
-              <Card.Header>{category[0].category.name}</Card.Header>
+              <Card.Header className="p-2">
+                {category[0].category.name}
+              </Card.Header>
               <ListGroup>
                 {category.map((game, index) => (
-                  <ListGroup.Item key={index}>
+                  <ListGroup.Item key={index} className="p-1">
                     <Game {...game} />
                   </ListGroup.Item>
                 ))}
