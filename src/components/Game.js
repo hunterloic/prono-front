@@ -11,7 +11,7 @@ export default function Game({ gameId, teams, category, startTime }) {
       <div>{epochToDate("ddd, mmm dS, yyyy, h:MM TT", startTime)}</div>
       <Stack direction="horizontal">
         {teams.map((team, index) => (
-          <Team order={index} key={index} {...team} />
+          <Team gameId={gameId} order={index} key={index} {...team} />
         ))}
       </Stack>
     </Stack>
