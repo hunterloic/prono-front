@@ -3,6 +3,12 @@ import { useGames } from "../hooks/useGames";
 import Game from "../components/Game";
 import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { dateToEpoch } from "../utils/date";
+import {
+  futurePredicate,
+  groupByCategory,
+  startTimeComparator,
+} from "../helper/game";
 
 export default function Pronostics() {
   const { currentGames } = useGames();
@@ -11,13 +17,9 @@ export default function Pronostics() {
     alert("click!");
   };
 
-  const categories = currentGames.reduce((map, game) => {
-    if (!map[game.category.categoryId]) {
-      map[game.category.categoryId] = [];
-    }
-    map[game.category.categoryId].push(game);
-    return map;
-  }, []);
+  const categories = currentGames
+    .filter(futurePredicate)
+    .reduce(groupByCategory, []);
 
   return (
     <Container>
@@ -34,13 +36,11 @@ export default function Pronostics() {
                   {category[0].category.name}
                 </Card.Header>
                 <ListGroup>
-                  {category
-                    .sort((a, b) => a.startTime - b.startTime)
-                    .map((game, index) => (
-                      <ListGroup.Item key={index} className="p-1">
-                        <Game {...game} />
-                      </ListGroup.Item>
-                    ))}
+                  {category.sort(startTimeComparator).map((game, index) => (
+                    <ListGroup.Item key={index} className="p-1">
+                      <Game {...game} />
+                    </ListGroup.Item>
+                  ))}
                 </ListGroup>
               </Card>
             </Col>
