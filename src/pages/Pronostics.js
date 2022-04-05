@@ -52,7 +52,7 @@ export default function Pronostics() {
       <Row>
         {categories.sort(orderComparator).map((category, index) => (
           <Col md="6" xs="12" key={index}>
-            <Category category={category} />
+            <Category category={category} style={{ minWidth: "330px" }} />
           </Col>
         ))}
       </Row>

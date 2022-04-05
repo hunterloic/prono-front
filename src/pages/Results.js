@@ -29,7 +29,7 @@ export default function Results() {
       <Row>
         {categories.sort(orderComparator).map((category, index) => (
           <Col lg="6" xs="12" key={index}>
-            <Category category={category} />
+            <Category category={category} style={{ minWidth: "365px" }} />
           </Col>
         ))}
       </Row>

@@ -3,9 +3,9 @@ import { Card, ListGroup } from "react-bootstrap";
 import { startTimeComparator } from "../helper/game";
 import Game from "./Game";
 
-export default function Category({ category }) {
+export default function Category({ category, ...props }) {
   return (
-    <Card className="my-2">
+    <Card className="my-2" {...props}>
       <Card.Header style={{ fontWeight: "600" }} className="p-2">
         {category[0].category.name}
       </Card.Header>
