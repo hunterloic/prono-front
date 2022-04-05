@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { withGamesProvider } from "./hooks/useGames";
+import { withPronosticsProvider } from "./hooks/usePronostics";
 import { loadGames } from "./api/pronostic";
+import { flow } from "lodash";
 
 const contextValue = {
   games: loadGames(),
+  pronostics: [],
 };
 
-const AppWithContext = withGamesProvider(App);
+const AppWithContext = flow(withGamesProvider, withPronosticsProvider)(App);
 
 // Create a root.
 ReactDOMClient.createRoot(document.getElementById("root")).render(

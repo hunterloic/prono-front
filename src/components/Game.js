@@ -24,8 +24,6 @@ export default function Game({ gameId, teams, startTime }) {
     ? getWinnerPronostic(teams)?.teamId
     : null;
 
-  console.log(winnerTeamId);
-
   return (
     <Stack direction="vertical">
       <Badge bg="light" text="dark">
@@ -38,7 +36,6 @@ export default function Game({ gameId, teams, startTime }) {
               gameId={gameId}
               order={index}
               key={index}
-              pronostic={team.pronostic}
               {...team}
             />
           ) : (
@@ -46,7 +43,6 @@ export default function Game({ gameId, teams, startTime }) {
               gameId={gameId}
               order={index}
               key={index}
-              pronostic={team.pronostic}
               {...team}
               goalPronosticOk={team.goal === team.pronostic}
               winner={winnerTeamId === team.teamId}
