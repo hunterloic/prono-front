@@ -10,7 +10,7 @@ const loadGames = () => {
       },
       teams: [
         { teamId: 1, name: "France", code: "fr", goal: 1, pronostic: 1 }, // goals:1, pronostic:1
-        { teamId: 2, name: "England", code: "gb-eng", goal: 2, pronostic: 3 }, // goals:1, pronostic:1
+        { teamId: 2, name: "England", code: "gb-eng", goal: 0, pronostic: 0 }, // goals:1, pronostic:1
       ],
     },
     {

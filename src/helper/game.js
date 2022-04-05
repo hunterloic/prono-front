@@ -23,23 +23,31 @@ export const hasResult = (teams) => {
   );
 };
 
-export const getWinnerResult = (teams) => {
-  const winnerResult = teams.reduce((result, team, index) => {
-    if (!result.goal || result.goal < team.goal) {
-      result.index = index;
-      result.goal = team.goal;
-    } else if (result.goal == team.goal) {
-      delete result.index;
+export const isDrawResult = (teams) => {
+  let result = true;
+  let goal = teams[0].goal;
+  teams.forEach((team) => {
+    if (team.goal !== goal) {
+      result = false;
     }
+  });
+  return result;
+};
 
-    return result;
-  }, {});
-
-  if (!winnerResult.index) {
-    return null;
-  }
-
-  return teams[winnerResult.index];
+export const getWinnerResult = (teams) => {
+  let winnerResult = {
+    teamId: teams[0].teamId,
+    goal: teams[0].goal,
+  };
+  teams.forEach((team) => {
+    if (team.goal > winnerResult.goal) {
+      winnerResult = {
+        teamId: team.teamId,
+        goal: team.goal,
+      };
+    }
+  });
+  return winnerResult;
 };
 
 export const hasPronostic = (teams) => {
@@ -49,21 +57,39 @@ export const hasPronostic = (teams) => {
   );
 };
 
-export const getWinnerPronostic = (teams) => {
-  const winnerPronostic = teams.reduce((result, team, index) => {
-    if (!result.pronostic || result.pronostic < team.pronostic) {
-      result.index = index;
-      result.pronostic = team.pronostic;
-    } else if (result.pronostic == team.pronostic) {
-      delete result.index;
+export const isDrawPronostic = (teams) => {
+  let result = true;
+  let pronostic = teams[0].pronostic;
+  teams.forEach((team) => {
+    if (team.pronostic !== pronostic) {
+      result = false;
     }
+  });
+  return result;
+};
 
-    return result;
-  }, {});
+export const getWinnerPronostic = (teams) => {
+  let winnerPronostic = {
+    teamId: teams[0].teamId,
+    pronostic: teams[0].pronostic,
+  };
+  teams.forEach((team) => {
+    if (team.pronostic > winnerPronostic.pronostic) {
+      winnerPronostic = {
+        teamId: team.teamId,
+        pronostic: team.pronostic,
+      };
+    }
+  });
+  return winnerPronostic;
+};
 
-  if (!winnerPronostic.index) {
-    return null;
-  }
+export const isPronosticMatchingResult = (teams) => {
+  let result = true;
 
-  return teams[winnerPronostic.index].teamId;
+  teams.forEach((team) => {
+    result = result && team.goal === team.pronostic;
+  });
+
+  return result;
 };
