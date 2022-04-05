@@ -3,15 +3,17 @@ import { useGames } from "../hooks/useGames";
 import Game from "../components/Game";
 import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import { dateToEpoch } from "../utils/date";
 import {
   futurePredicate,
   groupByCategory,
+  pastPredicate,
   startTimeComparator,
 } from "../helper/game";
 import Category from "../components/Category";
 import { orderComparator } from "../helper/category";
 
-export default function Pronostics() {
+export default function Results() {
   const { currentGames } = useGames();
 
   const handlePronosticClick = () => {
@@ -19,17 +21,14 @@ export default function Pronostics() {
   };
 
   const categories = currentGames
-    .filter(futurePredicate)
+    .filter(pastPredicate)
     .reduce(groupByCategory, []);
 
   return (
     <Container>
-      <Button className="my-2" variant="success" onClick={handlePronosticClick}>
-        Submit
-      </Button>
       <Row>
         {categories.sort(orderComparator).map((category, index) => (
-          <Col md="6" xs="12" key={index}>
+          <Col lg="6" xs="12" key={index}>
             <Category category={category} />
           </Col>
         ))}

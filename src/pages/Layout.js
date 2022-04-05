@@ -22,6 +22,9 @@ function Layout() {
               <Nav.Link as={Link} to={"/pronostics"}>
                 My Pronostics
               </Nav.Link>
+              <Nav.Link as={Link} to={"/results"}>
+                Results
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

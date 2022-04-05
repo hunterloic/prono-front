@@ -4,12 +4,11 @@ import { useGames } from "../hooks/useGames";
 import CountryFlag from "./CountryFlag";
 import CountryName from "./CountryName";
 
-export default function Team({
+export default function TeamPronostic({
   gameId,
   teamId,
   code,
   name,
-  result,
   pronostic,
   order,
 }) {

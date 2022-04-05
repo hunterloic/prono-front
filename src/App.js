@@ -5,6 +5,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Pronostics from "./pages/Pronostics";
 import NoPage from "./pages/NoPage";
+import Results from "./pages/Results";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="pronostics" element={<Pronostics />} />
+          <Route path="results" element={<Results />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
