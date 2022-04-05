@@ -22,7 +22,13 @@ export default function gameReducer(state = [], action) {
       )[0];
 
       if (pronosticToUpdate) {
-        pronosticToUpdate.pronostic = pronostic;
+        if (pronostic.trim() === "") {
+          return pronostics.filter(
+            (p) => !(p.gameId === gameId && p.teamId === teamId)
+          );
+        } else {
+          pronosticToUpdate.pronostic = pronostic;
+        }
       } else {
         pronostics.push({
           gameId,

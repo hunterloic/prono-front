@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useGames } from "../hooks/useGames";
 import Game from "../components/Game";
-import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import {
+  Alert,
+  Card,
+  Col,
+  Container,
+  ListGroup,
+  Row,
+  Stack,
+} from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import {
   futurePredicate,
@@ -10,8 +18,10 @@ import {
 } from "../helper/game";
 import Category from "../components/Category";
 import { orderComparator } from "../helper/category";
+import { usePronostics } from "../hooks/usePronostics";
 
 export default function Pronostics() {
+  const { currentPronostics } = usePronostics();
   const { currentGames } = useGames();
 
   const handlePronosticClick = () => {
@@ -24,9 +34,21 @@ export default function Pronostics() {
 
   return (
     <Container>
-      <Button className="my-2" variant="success" onClick={handlePronosticClick}>
-        Submit
-      </Button>
+      <Stack direction="horizontal">
+        <Button
+          className="my-2"
+          variant="success"
+          onClick={handlePronosticClick}
+          disabled={currentPronostics.length === 0}
+        >
+          Submit
+        </Button>
+        {currentPronostics.length > 0 && (
+          <Alert variant="danger" className="m-2 p-2">
+            You have unsubmitted pronostics.
+          </Alert>
+        )}
+      </Stack>
       <Row>
         {categories.sort(orderComparator).map((category, index) => (
           <Col md="6" xs="12" key={index}>

@@ -15,6 +15,8 @@ export default function TeamPronostic({
 }) {
   const { currentPronostics, dispatchPronostics } = usePronostics();
 
+  console.log(currentPronostics);
+
   const currentPronostic = currentPronostics.filter(
     (p) => p.gameId === gameId && p.teamId === teamId
   )[0]?.pronostic;
