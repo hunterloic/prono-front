@@ -4,6 +4,19 @@ import { dateToEpoch } from "../utils/date";
 export const futurePredicate = (game) =>
   game.startTime > dateToEpoch(new Date());
 
+export const countrySearchPredicate = (game, search) => {
+  if (search === "") {
+    return true;
+  }
+  return (
+    game.teams.filter(
+      (team) =>
+        team.name.toLowerCase().includes(search.toLowerCase()) ||
+        team.code.toLowerCase().includes(search.toLowerCase())
+    ).length > 0
+  );
+};
+
 export const pastPredicate = (game) =>
   game.startTime <= dateToEpoch(new Date());
 

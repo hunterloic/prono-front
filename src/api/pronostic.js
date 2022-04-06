@@ -62,6 +62,32 @@ const loadGames = () => {
       },
       teams: [
         { teamId: 3, name: "Spain", code: "es" },
+        { teamId: 4, name: "France", code: "fr" },
+      ],
+    },
+    {
+      gameId: 6,
+      startTime: 1667469600,
+      category: {
+        categoryId: 3,
+        name: "Group C",
+        order: 2,
+      },
+      teams: [
+        { teamId: 3, name: "France", code: "fr" },
+        { teamId: 4, name: "Germany", code: "de" },
+      ],
+    },
+    {
+      gameId: 7,
+      startTime: 1667469600,
+      category: {
+        categoryId: 4,
+        name: "Group D",
+        order: 2,
+      },
+      teams: [
+        { teamId: 3, name: "England", code: "gb-eng" },
         { teamId: 4, name: "Germany", code: "de" },
       ],
     },
