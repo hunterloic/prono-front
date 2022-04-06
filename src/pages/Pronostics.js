@@ -17,16 +17,19 @@ import {
   countrySearchPredicate,
   futurePredicate,
   groupByCategory,
-  startTimeComparator,
 } from "../helper/game";
 import Category from "../components/Category";
 import { orderComparator } from "../helper/category";
 import { usePronostics } from "../hooks/usePronostics";
+import {
+  SearchCountryInput,
+  useSearchCountry,
+} from "../hooks/useSearchCountry";
 
 export default function Pronostics() {
   const { currentPronostics } = usePronostics();
   const { currentGames } = useGames();
-  const [searchCountry, setSearchCountry] = useState("");
+  const { searchCountry } = useSearchCountry();
 
   const handlePronosticClick = (e) => {
     e.preventDefault();
@@ -37,10 +40,6 @@ export default function Pronostics() {
     .filter(futurePredicate)
     .filter((game) => countrySearchPredicate(game, searchCountry))
     .reduce(groupByCategory, []);
-
-  const handleSearch = (e) => {
-    setSearchCountry(e.target.value);
-  };
 
   return (
     <Container>
@@ -62,14 +61,7 @@ export default function Pronostics() {
         </Stack>
 
         <Form className="d-flex">
-          <FormControl
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            onChange={handleSearch}
-            value={searchCountry}
-          />
+          <SearchCountryInput />
         </Form>
       </Stack>
       <Row>
