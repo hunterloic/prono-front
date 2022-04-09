@@ -59,38 +59,43 @@ export default function Game({ gameId, teams, startTime }) {
             />
           );
         })}
-        {hasResultConst && hasPronosticConst && pronosticMatchWinner && (
-          <>
-            <OverlayTrigger
-              placement="right"
-              overlay={
-                <Tooltip>
-                  {!pronosticMatchScore && (
-                    <>
-                      {pointConfig.winnerMatchPoint} point for guessing
-                      correctly the winner
-                    </>
-                  )}
-                  {pronosticMatchScore && (
-                    <>
-                      {pointConfig.scoreMatchPoint} points for guessing
-                      correctly the score
-                    </>
-                  )}
-                </Tooltip>
-              }
-            >
-              <Alert variant="success" className="mx-1 my-2 p-1">
-                {pronosticMatchScore ? (
-                  <>{pointConfig.scoreMatchPoint}</>
-                ) : (
-                  <>{pointConfig.winnerMatchPoint}</>
-                )}{" "}
-                pt<sup> ?</sup>
-              </Alert>
-            </OverlayTrigger>
-          </>
-        )}
+
+        {/* show points only if date is over & there is result & there is pronostic */}
+        {startTime < dateToEpoch(new Date()) &&
+          hasResultConst &&
+          hasPronosticConst &&
+          pronosticMatchWinner && (
+            <>
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip>
+                    {!pronosticMatchScore && (
+                      <>
+                        {pointConfig.winnerMatchPoint} point for guessing
+                        correctly the winner
+                      </>
+                    )}
+                    {pronosticMatchScore && (
+                      <>
+                        {pointConfig.scoreMatchPoint} points for guessing
+                        correctly the score
+                      </>
+                    )}
+                  </Tooltip>
+                }
+              >
+                <Alert variant="success" className="mx-1 my-2 p-1">
+                  {pronosticMatchScore ? (
+                    <>{pointConfig.scoreMatchPoint}</>
+                  ) : (
+                    <>{pointConfig.winnerMatchPoint}</>
+                  )}{" "}
+                  pt<sup> ?</sup>
+                </Alert>
+              </OverlayTrigger>
+            </>
+          )}
       </Stack>
     </Stack>
   );
