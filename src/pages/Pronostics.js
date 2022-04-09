@@ -32,9 +32,9 @@ export default function Pronostics() {
   };
 
   return (
-    <Container>
+    <Container gap={2}>
       <Stack direction="vertical">
-        <Stack direction="horizontal">
+        <Stack direction="horizontal" gap={2}>
           <Button
             className="my-2"
             variant="success"
@@ -44,7 +44,7 @@ export default function Pronostics() {
             Submit
           </Button>
           {filterUpdatedGames().length > 0 && (
-            <Alert variant="danger" className="m-2 p-2">
+            <Alert variant="danger" className="my-2 py-1 px-2">
               You have unsubmitted pronostics.
             </Alert>
           )}

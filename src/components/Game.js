@@ -1,19 +1,7 @@
-import React, { useRef, useState } from "react";
-import {
-  Badge,
-  Form,
-  Stack,
-  Alert,
-  Overlay,
-  Tooltip,
-  OverlayTrigger,
-} from "react-bootstrap";
+import { Badge, Stack, Alert, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { dateToEpoch, epochToDate } from "../utils/date";
-import CountryFlag from "../components/CountryFlag";
-import CountryName from "./CountryName";
 import TeamResult from "./TeamResult";
 import TeamPronostic from "./TeamPronostic";
-import { isWinner } from "../helper/team";
 import {
   getWinnerPronostic,
   getWinnerResult,
@@ -48,7 +36,7 @@ export default function Game({ gameId, teams, startTime }) {
       <Badge bg="light" text="dark">
         {epochToDate("ddd, mmm dS, yyyy, h:MM TT", startTime)}
       </Badge>
-      <Stack direction="horizontal">
+      <Stack direction="horizontal" gap={1}>
         {teams.map((team, index) => {
           const { id: teamId, ...rest } = team;
           return startTime > dateToEpoch(new Date()) ? (
@@ -73,12 +61,6 @@ export default function Game({ gameId, teams, startTime }) {
         })}
         {hasResultConst && hasPronosticConst && pronosticMatchWinner && (
           <>
-            <p
-              className="my-1 mx-2"
-              style={{ fontSize: "1.3em", fontWeight: "bold" }}
-            >
-              {"|"}
-            </p>
             <OverlayTrigger
               placement="right"
               overlay={
@@ -98,7 +80,7 @@ export default function Game({ gameId, teams, startTime }) {
                 </Tooltip>
               }
             >
-              <Alert variant="success" className="my-1 mx-2 p-1">
+              <Alert variant="success" className="mx-1 my-2 p-1">
                 {pronosticMatchScore ? (
                   <>{pointConfig.scoreMatchPoint}</>
                 ) : (

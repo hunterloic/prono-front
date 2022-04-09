@@ -1,8 +1,5 @@
-import React from "react";
 import { Stack } from "react-bootstrap";
-import { useGames } from "../hooks/useGames";
 import CountryFlag from "./CountryFlag";
-import CountryName from "./CountryName";
 import styled from "styled-components";
 
 const Pronostic = styled.sup`
@@ -24,16 +21,21 @@ export default function TeamResult({
   const guessOrder = order === 0 ? 3 : 1;
 
   return (
-    <Stack direction="horizontal">
-      <CountryFlag code={code} className={`m-1 order-${flagOrder}`} />
-      <CountryName
-        style={{ color: winner ? "green" : "black" }}
-        className={`m-1 order-${nameOrder}`}
-        name={name}
-      />
+    <Stack direction="horizontal" gap={1}>
+      <CountryFlag code={code} className={`order-${flagOrder}`} />
       <div
-        className={`p-1 m-1 order-${guessOrder}`}
-        style={{ fontSize: "1.25em" }}
+        style={{
+          color: winner ? "green" : "black",
+          width: "4.5em",
+          wordBreak: "break-all",
+        }}
+        className={`order-${nameOrder}`}
+      >
+        {name}
+      </div>
+      <div
+        className={`p-1 order-${guessOrder}`}
+        style={{ width: "1.4em", fontSize: "1.2em" }}
       >
         {goal}
         <Pronostic goalPronosticOk={goalPronosticOk}>{pronostic}</Pronostic>

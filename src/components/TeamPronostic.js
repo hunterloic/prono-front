@@ -1,7 +1,6 @@
 import { Form, Stack } from "react-bootstrap";
 import { useGames } from "../hooks/useGames";
 import CountryFlag from "./CountryFlag";
-import CountryName from "./CountryName";
 
 export default function TeamPronostic({
   gameId,
@@ -34,11 +33,19 @@ export default function TeamPronostic({
   const guessOrder = order === 0 ? 3 : 1;
 
   return (
-    <Stack direction="horizontal">
-      <CountryFlag code={code} className={`m-1 order-${flagOrder}`} />
-      <CountryName className={`m-1 order-${nameOrder}`} name={name} />
+    <Stack direction="horizontal" gap={1}>
+      <CountryFlag code={code} className={`order-${flagOrder}`} />
+      <div
+        style={{
+          width: "4.5em",
+          wordBreak: "break-all",
+        }}
+        className={`order-${nameOrder}`}
+      >
+        {name}
+      </div>
       <Form.Control
-        className={`p-1 m-1 order-${guessOrder}`}
+        className={`p-1 order-${guessOrder}`}
         style={{ width: "2em" }}
         value={pronostic || ""}
         onChange={handlePronosticChange}
