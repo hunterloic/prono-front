@@ -1,14 +1,19 @@
+import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
-import { getTeams, putTeams } from "../api/teams";
 import CountryFlag from "../components/CountryFlag";
+import { useAxios } from "../hooks/useAxios";
 
 export default function ManageTeams() {
   const [teams, setTeams] = useState([]);
+  const { axios } = useAxios();
 
   useEffect(() => {
     async function fetchTeams() {
-      setTeams([...(await getTeams()), { tempId: 1 }]);
+      setTeams([
+        ...(await axios.get("/teams")).data,
+        { tempId: getLatestAddedTeam().tempId + 1 },
+      ]);
     }
 
     fetchTeams();
@@ -18,10 +23,11 @@ export default function ManageTeams() {
 
   const handleUpdateTeams = async () => {
     setTeams([
-      ...(await putTeams(
+      ...(await axios.put(
+        "/teams",
         teams.filter((team) => teamDeletedOrUpdateFilter(team))
       )),
-      { tempId: 1 },
+      { tempId: getLatestAddedTeam().tempId + 1 },
     ]);
   };
 

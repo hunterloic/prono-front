@@ -6,6 +6,8 @@ export const useAuthorized = (roles) => {
     isAuthorized:
       roles &&
       keycloak.authenticated &&
-      roles.some((r) => keycloak.hasResourceRole(r)),
+      roles.some(
+        (r) => keycloak.hasResourceRole(r) || keycloak.hasRealmRole(r)
+      ),
   };
 };
