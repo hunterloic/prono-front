@@ -9,8 +9,8 @@ const loadGames = () => {
         order: 1,
       },
       teams: [
-        { teamId: 1, name: "France", code: "fr", goal: 1, pronostic: 1 }, // goals:1, pronostic:1
-        { teamId: 2, name: "England", code: "gb-eng", goal: 0, pronostic: 0 }, // goals:1, pronostic:1
+        { id: 1, name: "France", code: "fr", goal: 1, pronostic: 1 }, // goals:1, pronostic:1
+        { id: 2, name: "England", code: "gb-eng", goal: 0, pronostic: 0 }, // goals:1, pronostic:1
       ],
     },
     {
@@ -22,8 +22,8 @@ const loadGames = () => {
         order: 1,
       },
       teams: [
-        { teamId: 3, name: "Spain", code: "es", goal: 0 },
-        { teamId: 4, name: "Germany", code: "de", goal: 0 },
+        { id: 3, name: "Spain", code: "es", goal: 0 },
+        { id: 4, name: "Germany", code: "de", goal: 0 },
       ],
     },
     {
@@ -35,8 +35,8 @@ const loadGames = () => {
         order: 3,
       },
       teams: [
-        { teamId: 3, name: "Spain", code: "es", pronostic: 1 },
-        { teamId: 4, name: "Germany", code: "de", pronostic: 1 },
+        { id: 3, name: "Spain", code: "es", pronostic: 1 },
+        { id: 4, name: "Germany", code: "de", pronostic: 1 },
       ],
     },
     {
@@ -48,8 +48,8 @@ const loadGames = () => {
         order: 2,
       },
       teams: [
-        { teamId: 3, name: "Spain", code: "es" },
-        { teamId: 4, name: "Germany", code: "de" },
+        { id: 3, name: "Spain", code: "es" },
+        { id: 4, name: "Germany", code: "de" },
       ],
     },
     {
@@ -61,8 +61,8 @@ const loadGames = () => {
         order: 2,
       },
       teams: [
-        { teamId: 3, name: "Spain", code: "es" },
-        { teamId: 4, name: "France", code: "fr" },
+        { id: 3, name: "Spain", code: "es" },
+        { id: 4, name: "France", code: "fr" },
       ],
     },
     {
@@ -74,8 +74,8 @@ const loadGames = () => {
         order: 2,
       },
       teams: [
-        { teamId: 3, name: "France", code: "fr" },
-        { teamId: 4, name: "Germany", code: "de" },
+        { id: 3, name: "France", code: "fr" },
+        { id: 4, name: "Germany", code: "de" },
       ],
     },
     {
@@ -87,8 +87,8 @@ const loadGames = () => {
         order: 2,
       },
       teams: [
-        { teamId: 3, name: "England", code: "gb-eng" },
-        { teamId: 4, name: "Germany", code: "de" },
+        { id: 3, name: "England", code: "gb-eng" },
+        { id: 4, name: "Germany", code: "de" },
       ],
     },
   ];

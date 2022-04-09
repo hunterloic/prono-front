@@ -49,13 +49,13 @@ export const isDrawResult = (teams) => {
 
 export const getWinnerResult = (teams) => {
   let winnerResult = {
-    teamId: teams[0].teamId,
+    teamId: teams[0].id,
     goal: teams[0].goal,
   };
   teams.forEach((team) => {
     if (team.goal > winnerResult.goal) {
       winnerResult = {
-        teamId: team.teamId,
+        teamId: team.id,
         goal: team.goal,
       };
     }
@@ -83,13 +83,13 @@ export const isDrawPronostic = (teams) => {
 
 export const getWinnerPronostic = (teams) => {
   let winnerPronostic = {
-    teamId: teams[0].teamId,
+    teamId: teams[0].id,
     pronostic: teams[0].pronostic,
   };
   teams.forEach((team) => {
     if (team.pronostic > winnerPronostic.pronostic) {
       winnerPronostic = {
-        teamId: team.teamId,
+        teamId: team.id,
         pronostic: team.pronostic,
       };
     }

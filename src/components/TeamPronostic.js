@@ -1,7 +1,5 @@
-import React, { Fragment, useEffect } from "react";
 import { Form, Stack } from "react-bootstrap";
 import { useGames } from "../hooks/useGames";
-import { usePronostic, usePronostics } from "../hooks/usePronostics";
 import CountryFlag from "./CountryFlag";
 import CountryName from "./CountryName";
 
@@ -13,14 +11,15 @@ export default function TeamPronostic({
   pronostic,
   order,
 }) {
-  const { currentPronostics, dispatchPronostics } = usePronostics();
-
-  const currentPronostic = currentPronostics.filter(
-    (p) => p.gameId === gameId && p.teamId === teamId
-  )[0]?.pronostic;
+  const { dispatchGames } = useGames();
 
   const handlePronosticChange = (e) => {
-    dispatchPronostics({
+    console.log({
+      gameId: gameId,
+      teamId: teamId,
+      pronostic: e.target.value,
+    });
+    dispatchGames({
       type: "SET_PRONOSTIC",
       payload: {
         gameId: gameId,
@@ -41,7 +40,7 @@ export default function TeamPronostic({
       <Form.Control
         className={`p-1 m-1 order-${guessOrder}`}
         style={{ width: "2em" }}
-        value={currentPronostic || pronostic || ""}
+        value={pronostic || ""}
         onChange={handlePronosticChange}
       />
     </Stack>

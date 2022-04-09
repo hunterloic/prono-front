@@ -1,12 +1,9 @@
-import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { withGamesProvider } from "./hooks/useGames";
-import { withPronosticsProvider } from "./hooks/usePronostics";
-import { loadGames } from "./api/pronostic";
-import { flow } from "lodash";
+import { loadGames } from "./api/games";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import keycloak from "./Keycloak";
 
@@ -15,7 +12,7 @@ const contextValue = {
   pronostics: [],
 };
 
-const AppWithContext = flow(withGamesProvider, withPronosticsProvider)(App);
+const AppWithContext = withGamesProvider(App);
 
 // Create a root.
 ReactDOMClient.createRoot(document.getElementById("root")).render(

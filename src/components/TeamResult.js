@@ -16,8 +16,8 @@ export default function TeamResult({
   goal = "?",
   pronostic,
   order,
-  winner,
   goalPronosticOk,
+  winner,
 }) {
   const flagOrder = order === 0 ? 1 : 3;
   const nameOrder = 2;

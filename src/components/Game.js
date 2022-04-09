@@ -29,16 +29,15 @@ export default function Game({ gameId, teams, startTime }) {
   const hasResultConst = hasResult(teams);
   const hasPronosticConst = hasPronostic(teams);
 
-  const isDrawResultConst = hasResultConst ? isDrawResult(teams) : false;
-  const isDrawPronosticConst = hasPronosticConst
-    ? isDrawPronostic(teams)
-    : false;
+  const isDrawResultConst = hasResultConst && isDrawResult(teams);
+  const isDrawPronosticConst = hasPronosticConst && isDrawPronostic(teams);
 
   const winnerTeamIdResult =
-    hasResultConst && !isDrawResultConst ? getWinnerResult(teams).teamId : null;
+    hasResultConst && !isDrawResultConst ? getWinnerResult(teams).id : null;
+
   const winnerTeamIdPronostic =
     hasPronosticConst && !isDrawPronosticConst
-      ? getWinnerPronostic(teams).teamId
+      ? getWinnerPronostic(teams).id
       : null;
 
   const pronosticMatchWinner = winnerTeamIdResult === winnerTeamIdPronostic;
@@ -50,25 +49,28 @@ export default function Game({ gameId, teams, startTime }) {
         {epochToDate("ddd, mmm dS, yyyy, h:MM TT", startTime)}
       </Badge>
       <Stack direction="horizontal">
-        {teams.map((team, index) =>
-          startTime > dateToEpoch(new Date()) ? (
+        {teams.map((team, index) => {
+          const { id: teamId, ...rest } = team;
+          return startTime > dateToEpoch(new Date()) ? (
             <TeamPronostic
               gameId={gameId}
               order={index}
               key={index}
-              {...team}
+              teamId={teamId}
+              {...rest}
             />
           ) : (
             <TeamResult
               gameId={gameId}
               order={index}
               key={index}
-              {...team}
+              teamId={teamId}
               goalPronosticOk={team.goal === team.pronostic}
-              winner={winnerTeamIdResult === team.teamId}
+              winner={winnerTeamIdResult === team.id}
+              {...rest}
             />
-          )
-        )}
+          );
+        })}
         {hasResultConst && hasPronosticConst && pronosticMatchWinner && (
           <>
             <p
