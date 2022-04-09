@@ -18,7 +18,7 @@ function Layout() {
         sticky="top"
       >
         <Container>
-          <Navbar.Brand href="#home">Prono</Navbar.Brand>
+          <Navbar.Brand href="/home">Prono</Navbar.Brand>
 
           {!isLoggedIn && (
             <>

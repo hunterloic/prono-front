@@ -9,6 +9,13 @@ export default function CountryFlag({
   }.svg`;
 
   return (
-    <img {...props} src={imageUrl} alt={code} width={width} height={height} />
+    <img
+      style={{ border: "solid black 1px" }}
+      {...props}
+      src={imageUrl}
+      alt={code}
+      width={width}
+      height={height}
+    />
   );
 }

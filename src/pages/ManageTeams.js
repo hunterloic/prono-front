@@ -1,66 +1,68 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
-import { loadTeams } from "../api/teams";
+import { getTeams, putTeams } from "../api/teams";
 import CountryFlag from "../components/CountryFlag";
 
 export default function ManageTeams() {
   const [teams, setTeams] = useState([]);
 
   useEffect(() => {
-    // todo : fetch teams
-    setTeams(loadTeams);
+    async function fetchTeams() {
+      setTeams([...(await getTeams()), { tempId: 1 }]);
+    }
+
+    fetchTeams();
   }, []);
 
-  const handleUpdateTeams = () => {};
+  const handleUpdateTeams = async () => {
+    setTeams([
+      ...(await putTeams(teams.filter((team) => team.updated || team.deleted))),
+      { tempId: 1 },
+    ]);
+  };
 
-  const filterByTeamId = (teams, team) => {
+  const filterTeamsById = (teams, team) => {
     return teams.filter((t) => {
-      if (team.teamId) return t.teamId === team.teamId;
-      if (team.teamTempId) return t.teamTempId === team.teamTempId;
+      if (team.id) return t.id === team.id;
+      if (team.tempId) return t.tempId === team.tempId;
       return false;
     })[0];
   };
 
   const handleChangeTeamName = (team, name) => {
     const newTeams = [...teams];
-    filterByTeamId(newTeams, team).name = name;
+    const teamToUpdate = filterTeamsById(newTeams, team);
+    teamToUpdate.name = name;
+    teamToUpdate.updated = true;
     setTeams(newTeams);
   };
 
   const handleChangeTeamCode = (team, code) => {
     const newTeams = [...teams];
-    filterByTeamId(newTeams, team).code = code;
+    const teamToUpdate = filterTeamsById(newTeams, team);
+    teamToUpdate.updated = true;
+    teamToUpdate.code = code;
     setTeams(newTeams);
   };
 
-  const getLatestTempIdTeam = () => {
+  const getLatestAddedTeam = () => {
     return teams.reduce(
-      (prev, curr) => {
-        return curr.teamTempId && curr.teamTempId > prev.teamTempId
-          ? curr
-          : prev;
-      },
-      { teamTempId: 0 }
+      (prev, curr) => (curr.tempId && curr.tempId > prev.tempId ? curr : prev),
+      { tempId: 0 }
     );
   };
 
   const handleAddTeam = () => {
-    const latestTempIdTeam = getLatestTempIdTeam();
-    const teamTempId = latestTempIdTeam.teamTempId + 1;
-    const newTeams = [...teams];
-    newTeams.push({ teamTempId });
-    setTeams(newTeams);
+    setTeams([...teams, { tempId: getLatestAddedTeam().tempId + 1 }]);
   };
 
   const handleRemoveTeam = (team) => {
     const newTeams = [...teams];
-    filterByTeamId(newTeams, team).deleted = true;
-    filterByTeamId(newTeams, team).name = "";
-    filterByTeamId(newTeams, team).code = "";
+    filterTeamsById(newTeams, team).deleted = true;
+    filterTeamsById(newTeams, team).name = "";
+    filterTeamsById(newTeams, team).code = "";
     setTeams(newTeams);
   };
-
-  console.log(teams);
 
   return (
     <Container>
@@ -78,7 +80,7 @@ export default function ManageTeams() {
             .filter((team) => !team.deleted)
             .map((team, index) => (
               <Stack key={index} direction="horizontal" gap={2}>
-                <Form.Control value={team.teamId || ""} disabled />
+                <Form.Control value={team.id || ""} disabled />
                 <Form.Control
                   value={team.code || ""}
                   onChange={(e) => handleChangeTeamCode(team, e.target.value)}
@@ -87,10 +89,7 @@ export default function ManageTeams() {
                   value={team.name || ""}
                   onChange={(e) => handleChangeTeamName(team, e.target.value)}
                 />
-                <CountryFlag
-                  style={{ border: "solid black 1px" }}
-                  code={team.code}
-                />
+                <CountryFlag code={team.code} />
                 <Button
                   className="my-2"
                   variant="danger"
@@ -102,12 +101,7 @@ export default function ManageTeams() {
                 </Button>
               </Stack>
             ))}
-        <Button
-          className="my-2"
-          variant="success"
-          onClick={handleAddTeam}
-          disabled={teams.length === 0}
-        >
+        <Button className="my-2" variant="success" onClick={handleAddTeam}>
           Add
         </Button>
       </Stack>
