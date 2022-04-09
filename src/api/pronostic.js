@@ -94,42 +94,4 @@ const loadGames = () => {
   ];
 };
 
-const loadResults = () => {
-  return [
-    {
-      gameId: 1,
-      results: [
-        { teamId: 1, result: 1 },
-        { teamId: 2, result: 2 },
-      ],
-    },
-    {
-      gameId: 2,
-      results: [
-        { teamId: 3, result: 3 },
-        { teamId: 4, result: 4 },
-      ],
-    },
-  ];
-};
-
-const loadPronotics = () => {
-  return [
-    {
-      gameId: 1,
-      results: [
-        { teamId: 1, result: 1 },
-        { teamId: 2, result: 2 },
-      ],
-    },
-    {
-      gameId: 2,
-      results: [
-        { teamId: 3, result: 3 },
-        { teamId: 4, result: 4 },
-      ],
-    },
-  ];
-};
-
-export { loadGames, loadResults, loadPronotics };
+export { loadGames };
