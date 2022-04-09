@@ -14,9 +14,13 @@ export default function ManageTeams() {
     fetchTeams();
   }, []);
 
+  const teamDeletedOrUpdateFilter = (team) => team.updated || team.deleted;
+
   const handleUpdateTeams = async () => {
     setTeams([
-      ...(await putTeams(teams.filter((team) => team.updated || team.deleted))),
+      ...(await putTeams(
+        teams.filter((team) => teamDeletedOrUpdateFilter(team))
+      )),
       { tempId: 1 },
     ]);
   };
@@ -58,20 +62,22 @@ export default function ManageTeams() {
 
   const handleRemoveTeam = (team) => {
     const newTeams = [...teams];
-    filterTeamsById(newTeams, team).deleted = true;
-    filterTeamsById(newTeams, team).name = "";
-    filterTeamsById(newTeams, team).code = "";
+    const teamToRemove = filterTeamsById(newTeams, team);
+    teamToRemove.deleted = true;
+    teamToRemove.name = "";
+    teamToRemove.code = "";
     setTeams(newTeams);
   };
 
   return (
     <Container>
-      <Stack direction="vertical" gap={2}>
+      <Stack direction="vertical" gap={2} className="my-2">
         <Button
-          className="my-2"
           variant="success"
           onClick={handleUpdateTeams}
-          disabled={teams.length === 0}
+          disabled={
+            teams.filter((team) => teamDeletedOrUpdateFilter(team)).length === 0
+          }
         >
           Submit
         </Button>
@@ -80,7 +86,11 @@ export default function ManageTeams() {
             .filter((team) => !team.deleted)
             .map((team, index) => (
               <Stack key={index} direction="horizontal" gap={2}>
-                <Form.Control value={team.id || ""} disabled />
+                <Form.Control
+                  style={{ fontSize: "0.8em" }}
+                  value={team.id || ""}
+                  disabled
+                />
                 <Form.Control
                   value={team.code || ""}
                   onChange={(e) => handleChangeTeamCode(team, e.target.value)}
@@ -101,7 +111,7 @@ export default function ManageTeams() {
                 </Button>
               </Stack>
             ))}
-        <Button className="my-2" variant="success" onClick={handleAddTeam}>
+        <Button variant="success" onClick={handleAddTeam}>
           Add
         </Button>
       </Stack>
