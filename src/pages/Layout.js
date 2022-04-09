@@ -1,9 +1,13 @@
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Outlet, Link } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
+import { useLoggedIn } from "../hooks/useLoggedIn";
+import { useAuthorized } from "../hooks/useAuthorized";
 
 function Layout() {
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak } = useKeycloak();
+  const { isLoggedIn } = useLoggedIn();
+  const { isAuthorized: isAdmin } = useAuthorized(["admin"]);
   return (
     <>
       <Navbar
@@ -16,25 +20,25 @@ function Layout() {
         <Container>
           <Navbar.Brand href="#home">Prono</Navbar.Brand>
 
-          {!keycloak.authenticated && (
-            <Button
-              variant="secondary"
-              className="mx-2"
-              onClick={() => keycloak.login()}
-            >
-              Login
-            </Button>
+          {!isLoggedIn && (
+            <>
+              <Button
+                variant="secondary"
+                className="mx-2"
+                onClick={() => keycloak.login()}
+              >
+                Login
+              </Button>
+              <Button
+                variant="secondary"
+                className="mx-2"
+                onClick={() => keycloak.register()}
+              >
+                Register
+              </Button>
+            </>
           )}
-          {!keycloak.authenticated && (
-            <Button
-              variant="secondary"
-              className="mx-2"
-              onClick={() => keycloak.register()}
-            >
-              Register
-            </Button>
-          )}
-          {keycloak.authenticated && (
+          {isLoggedIn && (
             <Button
               variant="secondary"
               className="mx-2"
@@ -49,7 +53,7 @@ function Layout() {
               <Nav.Link as={Link} to={"/"}>
                 Home
               </Nav.Link>
-              {keycloak.authenticated && (
+              {isLoggedIn && (
                 <>
                   <Nav.Link as={Link} to={"/pronostics"}>
                     My Pronostics
@@ -58,6 +62,16 @@ function Layout() {
                     Results
                   </Nav.Link>
                 </>
+              )}
+
+              {isAdmin && (
+                <NavDropdown title="Admin" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/manageteams">Teams</NavDropdown.Item>
+                  <NavDropdown.Item href="/managegames">Games</NavDropdown.Item>
+                  <NavDropdown.Item href="/managegroups">
+                    Groups
+                  </NavDropdown.Item>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

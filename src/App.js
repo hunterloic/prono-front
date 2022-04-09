@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
@@ -7,34 +6,69 @@ import Pronostics from "./pages/Pronostics";
 import NoPage from "./pages/NoPage";
 import Results from "./pages/Results";
 import { withSearchCountryProvider } from "./hooks/useSearchCountry";
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import keycloak from "./Keycloak";
-import PrivateRoute from "./components/PrivateRoute";
+import LoggedInRoute from "./components/LoggedInRoute";
+import SecuredRoute from "./components/SecuredRoute";
+import ManageTeams from "./pages/ManageTeams";
+import ManageGames from "./pages/ManageGames";
+import ManageGroups from "./pages/ManageGroups";
+import { useKeycloak } from "@react-keycloak/web";
 
 function App() {
+  const { initialized } = useKeycloak();
   const PronosticWithContext = withSearchCountryProvider(Pronostics);
   const ResultsWithContext = withSearchCountryProvider(Results);
 
-  return (
-    <ReactKeycloakProvider authClient={keycloak}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route
-              path="pronostics"
-              element={
-                <PrivateRoute>
-                  <PronosticWithContext />
-                </PrivateRoute>
-              }
-            />
-            <Route path="results" element={<ResultsWithContext />} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </ReactKeycloakProvider>
+  return !initialized ? (
+    "LOADING"
+  ) : (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="pronostics"
+            element={
+              <LoggedInRoute>
+                <PronosticWithContext />
+              </LoggedInRoute>
+            }
+          />
+          <Route
+            path="results"
+            element={
+              <LoggedInRoute>
+                <ResultsWithContext />
+              </LoggedInRoute>
+            }
+          />
+          <Route
+            path="manageteams"
+            element={
+              <SecuredRoute roles={["admin"]}>
+                <ManageTeams />
+              </SecuredRoute>
+            }
+          />
+          <Route
+            path="managegames"
+            element={
+              <SecuredRoute roles={["admin"]}>
+                <ManageGames />
+              </SecuredRoute>
+            }
+          />
+          <Route
+            path="managegroups"
+            element={
+              <SecuredRoute roles={["admin"]}>
+                <ManageGroups />
+              </SecuredRoute>
+            }
+          />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
