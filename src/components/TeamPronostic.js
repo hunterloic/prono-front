@@ -13,17 +13,16 @@ export default function TeamPronostic({
   const { dispatchGames } = useGames();
 
   const handlePronosticChange = (e) => {
-    console.log({
-      gameId: gameId,
-      teamId: teamId,
-      pronostic: e.target.value,
-    });
+    const pronostic = e.target.value;
+    if (pronostic.length > 2) {
+      return;
+    }
     dispatchGames({
       type: "SET_PRONOSTIC",
       payload: {
         gameId: gameId,
         teamId: teamId,
-        pronostic: e.target.value,
+        pronostic: parseInt(pronostic),
       },
     });
   };

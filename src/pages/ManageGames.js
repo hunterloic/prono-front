@@ -27,6 +27,15 @@ export default function ManageGames() {
             order: 2,
             name: "Semi-finals",
           },
+          teams: [
+            {
+              id: "625238953e7e65212cdaeb1f",
+              name: "France",
+              code: "fr",
+              goal: 1,
+            },
+            { id: "625238953e7e65212cdaeb20", name: "Germany", code: "de" },
+          ],
         },
       ]);
     }
@@ -36,14 +45,12 @@ export default function ManageGames() {
     }
 
     async function fetchTeams() {
-      // setTeams([
-      //   ...(await axios.get("/games")).data,
-      //   { tempId: getLatestAddedTeam().tempId + 1 },
-      // ]);
+      setTeams((await axios.get("/teams")).data);
     }
 
     fetchGames();
     fetchCategories();
+    fetchTeams();
   }, []);
 
   const gameDeletedOrUpdateFilter = (game) => game.updated || game.deleted;
@@ -56,7 +63,8 @@ export default function ManageGames() {
           games.filter((game) => gameDeletedOrUpdateFilter(game))
         )
       ).data,
-      { tempId: getLatestAddedGame().tempId + 1 },
+      ,
+      createGame(),
     ]);
   };
 
@@ -88,6 +96,33 @@ export default function ManageGames() {
     setGames(newGames);
   };
 
+  const handleChangeGameTeam = (game, teamNo, teamId) => {
+    const team = teams.filter((t) => t.id === teamId)[0];
+    if (!team) return;
+    const newGames = [...games];
+    const gameToUpdate = filterGamesById(newGames, game);
+    const teamToUpdate = gameToUpdate.teams[teamNo];
+    teamToUpdate.id = team.id;
+    teamToUpdate.code = team.code;
+    teamToUpdate.name = team.name;
+    gameToUpdate.updated = true;
+    setGames(newGames);
+  };
+
+  const handleChangeTeamGoal = (game, teamId, goal) => {
+    if (goal.length > 2) {
+      return;
+    }
+    const team = teams.filter((t) => t.id === teamId)[0];
+    if (!team) return;
+    const newGames = [...games];
+    const gameToUpdate = filterGamesById(newGames, game);
+    const teamToUpdate = gameToUpdate.teams.filter((t) => t.id === teamId)[0];
+    teamToUpdate.goal = parseInt(goal);
+    gameToUpdate.updated = true;
+    setGames(newGames);
+  };
+
   const getLatestAddedGame = () => {
     return games.reduce(
       (prev, curr) => (curr.tempId && curr.tempId > prev.tempId ? curr : prev),
@@ -95,8 +130,16 @@ export default function ManageGames() {
     );
   };
 
+  const createGame = () => {
+    return {
+      tempId: getLatestAddedGame().tempId + 1,
+      teams: [{}, {}],
+      category: {},
+    };
+  };
+
   const handleAddGame = () => {
-    setGames([...games, { tempId: getLatestAddedGame().tempId + 1 }]);
+    setGames([...games, createGame()]);
   };
 
   const handleRemoveGame = (game) => {
@@ -116,17 +159,32 @@ export default function ManageGames() {
     }
   };
 
-  const categoriesOptions = categories.map((category) => {
-    return {
-      value: category.id,
-      label: category.name,
-    };
-  });
+  const categoriesOptions =
+    categories &&
+    categories.map((category) => {
+      return {
+        value: category.id,
+        label: category.name,
+      };
+    });
 
   const getGameCategoryOption = (game) => {
     return categoriesOptions.filter(
       (category) => category.value === game?.category?.id
     )[0];
+  };
+
+  const teamsOptions =
+    teams &&
+    teams.map((team) => {
+      return {
+        value: team.id,
+        label: team.name,
+      };
+    });
+
+  const getGameTeamsOption = (team) => {
+    return teamsOptions.filter((t) => t.value === team?.id)[0];
   };
 
   return (
@@ -153,7 +211,7 @@ export default function ManageGames() {
               >
                 <div>
                   <Form.Control
-                    style={{ fontSize: "0.7em", width: "10em" }}
+                    style={{ fontSize: "0.7em", width: "7em" }}
                     value={game.id || ""}
                     disabled
                   />
@@ -166,13 +224,65 @@ export default function ManageGames() {
                     dateFormat="Pp"
                   />
                 </div>
-                <div>
+                <div style={{ width: "10em" }}>
                   <Select
                     value={getGameCategoryOption(game)}
                     onChange={(opt) => {
                       handleChangeGameCategory(game, opt.value);
                     }}
                     options={categoriesOptions}
+                  />
+                </div>
+                <div style={{ width: "10em" }}>
+                  <Select
+                    value={getGameTeamsOption(game?.teams[0])}
+                    onChange={(opt) => {
+                      handleChangeGameTeam(game, 0, opt.value);
+                    }}
+                    options={teamsOptions}
+                  />
+                </div>
+                <div>
+                  <Form.Control
+                    maxLength="2"
+                    className="p-1"
+                    style={{ width: "3em" }}
+                    type="number"
+                    min="0"
+                    value={game?.teams[0]?.goal || ""}
+                    onChange={(e) =>
+                      handleChangeTeamGoal(
+                        game,
+                        game?.teams[0]?.id,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+                <div>
+                  <Form.Control
+                    maxLength="2"
+                    className="p-1"
+                    style={{ width: "3em" }}
+                    type="number"
+                    min="0"
+                    value={game?.teams[1]?.goal || ""}
+                    onChange={(e) =>
+                      handleChangeTeamGoal(
+                        game,
+                        game?.teams[1]?.id,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+                <div style={{ width: "10em" }}>
+                  <Select
+                    value={getGameTeamsOption(game?.teams[1])}
+                    onChange={(opt) => {
+                      handleChangeGameTeam(game, 1, opt.value);
+                    }}
+                    options={teamsOptions}
                   />
                 </div>
                 <div className="ms-auto">
