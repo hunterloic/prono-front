@@ -45,8 +45,10 @@ export default function TeamPronostic({
         {name}
       </div>
       <Form.Control
+        type="number"
+        min="0"
         className={`p-1 order-${guessOrder}`}
-        style={{ width: "2em" }}
+        style={{ width: "3em" }}
         value={pronostic || ""}
         onChange={handlePronosticChange}
       />

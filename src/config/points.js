@@ -4,5 +4,5 @@ export const pointConfig = {
 };
 
 export const backend = {
-  rootUrl: "http://localhost:8081",
+  rootUrl: "http://192.168.0.100:8081",
 };

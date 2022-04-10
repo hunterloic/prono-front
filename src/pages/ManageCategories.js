@@ -53,7 +53,7 @@ export default function ManageCategories() {
   const handleChangeCategoryOrder = (category, order) => {
     const newCategories = [...categories];
     const categoryToUpdate = filterCategoriesById(newCategories, category);
-    categoryToUpdate.order = order;
+    categoryToUpdate.order = parseInt(order);
     categoryToUpdate.updated = true;
     setCategories(newCategories);
   };
@@ -106,6 +106,8 @@ export default function ManageCategories() {
                   disabled
                 />
                 <Form.Control
+                  type="number"
+                  min="0"
                   value={category.order || ""}
                   onChange={(e) =>
                     handleChangeCategoryOrder(category, e.target.value)
