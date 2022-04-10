@@ -12,6 +12,7 @@ import ManageTeams from "./pages/ManageTeams";
 import ManageGames from "./pages/ManageGames";
 import ManageGroups from "./pages/ManageGroups";
 import { useKeycloak } from "@react-keycloak/web";
+import ManageCategories from "./pages/ManageCategories";
 
 function App() {
   const { initialized } = useKeycloak();
@@ -46,6 +47,14 @@ function App() {
             element={
               <SecuredRoute roles={["admin"]}>
                 <ManageTeams />
+              </SecuredRoute>
+            }
+          />
+          <Route
+            path="managecategories"
+            element={
+              <SecuredRoute roles={["admin"]}>
+                <ManageCategories />
               </SecuredRoute>
             }
           />

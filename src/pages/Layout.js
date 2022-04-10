@@ -67,6 +67,9 @@ function Layout() {
               {isAdmin && (
                 <NavDropdown title="Admin" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/manageteams">Teams</NavDropdown.Item>
+                  <NavDropdown.Item href="/managecategories">
+                    Categories
+                  </NavDropdown.Item>
                   <NavDropdown.Item href="/managegames">Games</NavDropdown.Item>
                   <NavDropdown.Item href="/managegroups">
                     Groups
