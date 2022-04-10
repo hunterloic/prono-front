@@ -1,11 +1,22 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
-import { Button, Container, Form, Stack } from "react-bootstrap";
-import CountryFlag from "../components/CountryFlag";
+import {
+  Button,
+  Container,
+  Dropdown,
+  DropdownButton,
+  Form,
+  Stack,
+} from "react-bootstrap";
 import { useAxios } from "../hooks/useAxios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { dateToEpoch } from "../utils/date";
 
 export default function ManageGames() {
   const [games, setGames] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [teams, setTeams] = useState([]);
   const { axios } = useAxios();
 
   useEffect(() => {
@@ -14,9 +25,32 @@ export default function ManageGames() {
       //   ...(await axios.get("/games")).data,
       //   { tempId: getLatestAddedTeam().tempId + 1 },
       // ]);
+      setGames([
+        {
+          id: 1,
+          startTime: 1667469600,
+          category: {
+            id: "62524fc85ef09305e935ad6e",
+            order: 2,
+            name: "Semi-finals",
+          },
+        },
+      ]);
+    }
+
+    async function fetchCategories() {
+      setCategories((await axios.get("/categories")).data);
+    }
+
+    async function fetchTeams() {
+      // setTeams([
+      //   ...(await axios.get("/games")).data,
+      //   { tempId: getLatestAddedTeam().tempId + 1 },
+      // ]);
     }
 
     fetchGames();
+    fetchCategories();
   }, []);
 
   const gameDeletedOrUpdateFilter = (game) => game.updated || game.deleted;
@@ -40,11 +74,22 @@ export default function ManageGames() {
       return false;
     })[0];
   };
+  const handleChangeGameCategory = (game, categoryId) => {
+    const category = categories.filter((c) => c.id === categoryId)[0];
+    if (!category) return;
 
-  const handleChangeGameStartTime = (game, startDateTime) => {
     const newGames = [...games];
     const gameToUpdate = filterGamesById(newGames, game);
-    gameToUpdate.startTime = startDateTime;
+    gameToUpdate.category = category;
+    gameToUpdate.updated = true;
+    console.log(JSON.stringify(newGames));
+    setGames(newGames);
+  };
+
+  const handleChangeGameStartTime = (game, date) => {
+    const newGames = [...games];
+    const gameToUpdate = filterGamesById(newGames, game);
+    gameToUpdate.startTime = dateToEpoch(date);
     gameToUpdate.updated = true;
     setGames(newGames);
   };
@@ -68,6 +113,15 @@ export default function ManageGames() {
     setGames(newGames);
   };
 
+  const getStartTimeAsDate = (startTime) => {
+    if (startTime) {
+      const date = new Date(0);
+      return date.setUTCSeconds(startTime);
+    } else {
+      return new Date();
+    }
+  };
+
   return (
     <Container>
       <Stack direction="vertical" gap={2} className="my-2">
@@ -84,27 +138,62 @@ export default function ManageGames() {
           games
             .filter((game) => !game.deleted)
             .map((game, index) => (
-              <Stack key={index} direction="horizontal" gap={2}>
-                <Form.Control
-                  style={{ fontSize: "0.8em" }}
-                  value={game.id || ""}
-                  disabled
-                />
-                <Form.Control
-                  value={game.startTime || ""}
-                  onChange={(e) =>
-                    handleChangeGameStartTime(game, e.target.value)
-                  }
-                />
-                <Button
-                  className="my-2"
-                  variant="danger"
-                  onClick={(e) => {
-                    handleRemoveGame(game);
-                  }}
-                >
-                  X
-                </Button>
+              <Stack
+                key={index}
+                direction="horizontal"
+                className="flex-wrap"
+                gap={2}
+              >
+                <div>
+                  <Form.Control
+                    style={{ fontSize: "0.7em", width: "10em" }}
+                    value={game.id || ""}
+                    disabled
+                  />
+                </div>
+                <div>
+                  <DatePicker
+                    selected={getStartTimeAsDate(game.startTime)}
+                    onChange={(date) => handleChangeGameStartTime(game, date)}
+                    showTimeSelect
+                    dateFormat="Pp"
+                  />
+                </div>
+                <div>
+                  <Dropdown
+                    onSelect={(categoryId) =>
+                      handleChangeGameCategory(game, categoryId)
+                    }
+                  >
+                    <Dropdown.Toggle id="dropdown-autoclose-true">
+                      {game?.category?.name || "Select a category"}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {categories &&
+                        categories.map((category, index) => (
+                          <Dropdown.Item
+                            key={index}
+                            eventKey={category.id}
+                            active={
+                              game.category && category.id === game.category.id
+                            }
+                          >
+                            {category.name}
+                          </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+                <div className="ms-auto">
+                  <Button
+                    variant="danger"
+                    onClick={(e) => {
+                      handleRemoveGame(game);
+                    }}
+                  >
+                    X
+                  </Button>
+                </div>
               </Stack>
             ))}
         <Button variant="success" onClick={handleAddGame}>

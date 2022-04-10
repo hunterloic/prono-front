@@ -1,5 +1,5 @@
 import { Badge, Stack, Alert, Tooltip, OverlayTrigger } from "react-bootstrap";
-import { dateToEpoch, epochToDate } from "../utils/date";
+import { dateToEpoch, epochToDateString } from "../utils/date";
 import TeamResult from "./TeamResult";
 import TeamPronostic from "./TeamPronostic";
 import {
@@ -34,7 +34,7 @@ export default function Game({ gameId, teams, startTime }) {
   return (
     <Stack direction="vertical">
       <Badge bg="light" text="dark">
-        {epochToDate("ddd, mmm dS, yyyy, h:MM TT", startTime)}
+        {epochToDateString("ddd, mmm dS, yyyy, h:MM TT", startTime)}
       </Badge>
       <Stack direction="horizontal" gap={1}>
         {teams.map((team, index) => {

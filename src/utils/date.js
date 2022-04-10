@@ -1,6 +1,6 @@
 import dateFormat from "dateformat";
 
-export const epochToDate = (pattern, epoch) => {
+export const epochToDateString = (pattern, epoch) => {
   const date = new Date(0);
   date.setUTCSeconds(epoch);
   return dateFormat(date, pattern);
