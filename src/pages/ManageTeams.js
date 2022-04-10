@@ -23,10 +23,12 @@ export default function ManageTeams() {
 
   const handleUpdateTeams = async () => {
     setTeams([
-      ...(await axios.put(
-        "/teams",
-        teams.filter((team) => teamDeletedOrUpdateFilter(team))
-      )),
+      ...(
+        await axios.put(
+          "/teams",
+          teams.filter((team) => teamDeletedOrUpdateFilter(team))
+        )
+      ).data,
       { tempId: getLatestAddedTeam().tempId + 1 },
     ]);
   };
