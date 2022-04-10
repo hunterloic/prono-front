@@ -1,17 +1,10 @@
-import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  Dropdown,
-  DropdownButton,
-  Form,
-  Stack,
-} from "react-bootstrap";
+import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useAxios } from "../hooks/useAxios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { dateToEpoch } from "../utils/date";
+import Select from "react-select";
 
 export default function ManageGames() {
   const [games, setGames] = useState([]);
@@ -74,6 +67,7 @@ export default function ManageGames() {
       return false;
     })[0];
   };
+
   const handleChangeGameCategory = (game, categoryId) => {
     const category = categories.filter((c) => c.id === categoryId)[0];
     if (!category) return;
@@ -122,6 +116,19 @@ export default function ManageGames() {
     }
   };
 
+  const categoriesOptions = categories.map((category) => {
+    return {
+      value: category.id,
+      label: category.name,
+    };
+  });
+
+  const getGameCategoryOption = (game) => {
+    return categoriesOptions.filter(
+      (category) => category.value === game?.category?.id
+    )[0];
+  };
+
   return (
     <Container>
       <Stack direction="vertical" gap={2} className="my-2">
@@ -160,29 +167,13 @@ export default function ManageGames() {
                   />
                 </div>
                 <div>
-                  <Dropdown
-                    onSelect={(categoryId) =>
-                      handleChangeGameCategory(game, categoryId)
-                    }
-                  >
-                    <Dropdown.Toggle id="dropdown-autoclose-true">
-                      {game?.category?.name || "Select a category"}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {categories &&
-                        categories.map((category, index) => (
-                          <Dropdown.Item
-                            key={index}
-                            eventKey={category.id}
-                            active={
-                              game.category && category.id === game.category.id
-                            }
-                          >
-                            {category.name}
-                          </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Select
+                    value={getGameCategoryOption(game)}
+                    onChange={(opt) => {
+                      handleChangeGameCategory(game, opt.value);
+                    }}
+                    options={categoriesOptions}
+                  />
                 </div>
                 <div className="ms-auto">
                   <Button
