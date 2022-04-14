@@ -14,30 +14,7 @@ export default function ManageGames() {
 
   useEffect(() => {
     async function fetchGames() {
-      // setTeams([
-      //   ...(await axios.get("/games")).data,
-      //   { tempId: getLatestAddedTeam().tempId + 1 },
-      // ]);
-      setGames([
-        {
-          id: 1,
-          startTime: 1667469600,
-          category: {
-            id: "62524fc85ef09305e935ad6e",
-            order: 2,
-            name: "Semi-finals",
-          },
-          teams: [
-            {
-              id: "625238953e7e65212cdaeb1f",
-              name: "France",
-              code: "fr",
-              goal: 1,
-            },
-            { id: "625238953e7e65212cdaeb20", name: "Germany", code: "de" },
-          ],
-        },
-      ]);
+      setGames([...(await axios.get("/games")).data, createGame()]);
     }
 
     async function fetchCategories() {
@@ -63,7 +40,6 @@ export default function ManageGames() {
           games.filter((game) => gameDeletedOrUpdateFilter(game))
         )
       ).data,
-      ,
       createGame(),
     ]);
   };
@@ -84,7 +60,6 @@ export default function ManageGames() {
     const gameToUpdate = filterGamesById(newGames, game);
     gameToUpdate.category = category;
     gameToUpdate.updated = true;
-    console.log(JSON.stringify(newGames));
     setGames(newGames);
   };
 
@@ -133,9 +108,18 @@ export default function ManageGames() {
   const createGame = () => {
     return {
       tempId: getLatestAddedGame().tempId + 1,
-      teams: [{}, {}],
-      category: {},
+      startTime: dateToEpoch(new Date()),
+      teams: [createTeam(), createTeam()],
+      category: createcategory(),
     };
+  };
+
+  const createTeam = () => {
+    return {};
+  };
+
+  const createcategory = () => {
+    return {};
   };
 
   const handleAddGame = () => {
@@ -146,7 +130,8 @@ export default function ManageGames() {
     const newGames = [...games];
     const gameToRemove = filterGamesById(newGames, game);
     gameToRemove.deleted = true;
-    gameToRemove.startTime = "";
+    gameToRemove.teams = [createTeam(), createTeam()];
+    gameToRemove.category = createcategory();
     setGames(newGames);
   };
 
@@ -187,6 +172,8 @@ export default function ManageGames() {
     return teamsOptions.filter((t) => t.value === team?.id)[0];
   };
 
+  console.log(games);
+
   return (
     <Container>
       <Stack direction="vertical" gap={2} className="my-2">
@@ -226,7 +213,7 @@ export default function ManageGames() {
                 </div>
                 <div style={{ width: "10em" }}>
                   <Select
-                    value={getGameCategoryOption(game)}
+                    value={getGameCategoryOption(game) || ""}
                     onChange={(opt) => {
                       handleChangeGameCategory(game, opt.value);
                     }}
@@ -235,7 +222,7 @@ export default function ManageGames() {
                 </div>
                 <div style={{ width: "10em" }}>
                   <Select
-                    value={getGameTeamsOption(game?.teams[0])}
+                    value={getGameTeamsOption(game?.teams[0]) || ""}
                     onChange={(opt) => {
                       handleChangeGameTeam(game, 0, opt.value);
                     }}
@@ -278,7 +265,7 @@ export default function ManageGames() {
                 </div>
                 <div style={{ width: "10em" }}>
                   <Select
-                    value={getGameTeamsOption(game?.teams[1])}
+                    value={getGameTeamsOption(game?.teams[1]) || ""}
                     onChange={(opt) => {
                       handleChangeGameTeam(game, 1, opt.value);
                     }}
