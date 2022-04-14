@@ -13,7 +13,7 @@ import {
 } from "../helper/game";
 import { pointConfig } from "../config/points";
 
-export default function Game({ gameId, teams, startTime }) {
+export default function Game({ id, teams, startTime }) {
   const hasResultConst = hasResult(teams);
   const hasPronosticConst = hasPronostic(teams);
 
@@ -41,18 +41,17 @@ export default function Game({ gameId, teams, startTime }) {
           const { id: teamId, ...rest } = team;
           return startTime > dateToEpoch(new Date()) ? (
             <TeamPronostic
-              gameId={gameId}
-              order={index}
               key={index}
+              order={index}
+              gameId={id}
               teamId={teamId}
               {...rest}
             />
           ) : (
             <TeamResult
-              gameId={gameId}
-              order={index}
               key={index}
-              teamId={teamId}
+              order={index}
+              gameId={id}
               goalPronosticOk={team.goal === team.pronostic}
               winner={winnerTeamIdResult === team.id}
               {...rest}

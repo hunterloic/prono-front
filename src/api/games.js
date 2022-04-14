@@ -1,7 +1,7 @@
 const loadGames = () => {
   return [
     {
-      gameId: 1,
+      id: 1,
       startTime: 1648991243,
       category: {
         categoryId: 1,
@@ -14,7 +14,7 @@ const loadGames = () => {
       ],
     },
     {
-      gameId: 2,
+      id: 2,
       startTime: 1648991243,
       category: {
         categoryId: 1,
@@ -27,7 +27,7 @@ const loadGames = () => {
       ],
     },
     {
-      gameId: 3,
+      id: 3,
       startTime: 1648991243,
       category: {
         categoryId: 2,
@@ -40,7 +40,7 @@ const loadGames = () => {
       ],
     },
     {
-      gameId: 4,
+      id: 4,
       startTime: 1667469600,
       category: {
         categoryId: 3,
@@ -53,7 +53,7 @@ const loadGames = () => {
       ],
     },
     {
-      gameId: 5,
+      id: 5,
       startTime: 1667469600,
       category: {
         categoryId: 3,
@@ -66,7 +66,7 @@ const loadGames = () => {
       ],
     },
     {
-      gameId: 6,
+      id: 6,
       startTime: 1667469600,
       category: {
         categoryId: 3,
@@ -79,7 +79,7 @@ const loadGames = () => {
       ],
     },
     {
-      gameId: 7,
+      id: 7,
       startTime: 1667469600,
       category: {
         categoryId: 4,

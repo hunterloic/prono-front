@@ -4,7 +4,7 @@ export default function gameReducer(state = [], action) {
       const { gameId, teamId, pronostic } = { ...action.payload };
       const games = [...state];
 
-      const game = games.filter((g) => g.gameId === gameId)[0];
+      const game = games.filter((g) => g.id === gameId)[0];
       game.updated = true;
 
       const teams = game?.teams.filter((team) => team.id === teamId);

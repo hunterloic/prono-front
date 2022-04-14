@@ -20,8 +20,8 @@ export default function TeamPronostic({
     dispatchGames({
       type: "SET_PRONOSTIC",
       payload: {
-        gameId: gameId,
-        teamId: teamId,
+        gameId,
+        teamId,
         pronostic: parseInt(pronostic),
       },
     });
