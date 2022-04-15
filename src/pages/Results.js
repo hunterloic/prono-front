@@ -28,9 +28,13 @@ export default function Results() {
         <SearchCountryInput className="me-2 mt-2" aria-label="Search" />
       </Form>
       <Row>
-        {categories.sort(orderComparator).map((category, index) => (
+        {categories.sort(orderComparator).map(({ category, games }, index) => (
           <Col md="6" xs="12" key={index}>
-            <Category category={category} style={{ minWidth: "350px" }} />
+            <Category
+              category={category}
+              games={games}
+              style={{ minWidth: "350px" }}
+            />
           </Col>
         ))}
       </Row>

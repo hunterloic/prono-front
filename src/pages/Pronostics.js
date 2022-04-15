@@ -56,11 +56,11 @@ export default function Pronostics() {
         </Form>
       </Stack>
       <Row>
-        {categories.sort(orderComparator).map((category, index) => (
+        {categories.sort(orderComparator).map(({ category, games }, index) => (
           <Col md="6" xs="12" key={index}>
             <Category
-              category={category.category}
-              games={category.games}
+              category={category}
+              games={games}
               style={{ minWidth: "330px" }}
             />
           </Col>
