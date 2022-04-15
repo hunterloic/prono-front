@@ -12,7 +12,6 @@ import {
   SearchCountryInput,
   useSearchCountry,
 } from "../hooks/useSearchCountry";
-import { useEffect, useState } from "react";
 
 export default function Pronostics() {
   const { currentGames } = useGames();
