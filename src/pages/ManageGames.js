@@ -71,12 +71,12 @@ export default function ManageGames() {
     setGames(newGames);
   };
 
-  const handleChangeGameTeam = (game, teamNo, teamId) => {
+  const handleChangeGameTeam = (game, teamIndex, teamId) => {
     const team = teams.filter((t) => t.id === teamId)[0];
     if (!team) return;
     const newGames = [...games];
     const gameToUpdate = filterGamesById(newGames, game);
-    const teamToUpdate = gameToUpdate.teams[teamNo];
+    const teamToUpdate = gameToUpdate.teams[teamIndex];
     teamToUpdate.id = team.id;
     teamToUpdate.code = team.code;
     teamToUpdate.name = team.name;
@@ -84,18 +84,26 @@ export default function ManageGames() {
     setGames(newGames);
   };
 
-  const handleChangeTeamGoal = (game, teamId, goal) => {
+  const handleChangeTeamGoal = (game, teamIndex, goal) => {
     if (goal.length > 2) {
       return;
     }
-    const team = teams.filter((t) => t.id === teamId)[0];
+    const team = game.teams[teamIndex];
     if (!team) return;
     const newGames = [...games];
     const gameToUpdate = filterGamesById(newGames, game);
-    const teamToUpdate = gameToUpdate.teams.filter((t) => t.id === teamId)[0];
+    const teamToUpdate = gameToUpdate.teams[teamIndex];
     teamToUpdate.goal = parseInt(goal);
     gameToUpdate.updated = true;
     setGames(newGames);
+  };
+
+  const getTeamGoal = (game, teamIndex) => {
+    const goal = game?.teams[teamIndex]?.goal;
+    if (goal != 0 && !goal) {
+      return "";
+    }
+    return goal;
   };
 
   const getLatestAddedGame = () => {
@@ -172,8 +180,6 @@ export default function ManageGames() {
     return teamsOptions.filter((t) => t.value === team?.id)[0];
   };
 
-  console.log(games);
-
   return (
     <Container>
       <Stack direction="vertical" gap={2} className="my-2">
@@ -236,13 +242,9 @@ export default function ManageGames() {
                     style={{ width: "3em" }}
                     type="number"
                     min="0"
-                    value={game?.teams[0]?.goal || ""}
+                    value={getTeamGoal(game, 0)}
                     onChange={(e) =>
-                      handleChangeTeamGoal(
-                        game,
-                        game?.teams[0]?.id,
-                        e.target.value
-                      )
+                      handleChangeTeamGoal(game, 0, e.target.value)
                     }
                   />
                 </div>
@@ -253,13 +255,9 @@ export default function ManageGames() {
                     style={{ width: "3em" }}
                     type="number"
                     min="0"
-                    value={game?.teams[1]?.goal || ""}
+                    value={getTeamGoal(game, 1)}
                     onChange={(e) =>
-                      handleChangeTeamGoal(
-                        game,
-                        game?.teams[1]?.id,
-                        e.target.value
-                      )
+                      handleChangeTeamGoal(game, 1, e.target.value)
                     }
                   />
                 </div>
