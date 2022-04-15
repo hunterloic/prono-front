@@ -4,7 +4,7 @@ const loadGames = () => {
       id: 1,
       startTime: 1648991243,
       category: {
-        categoryId: 1,
+        id: 1,
         name: "Group A",
         order: 1,
       },
@@ -17,7 +17,7 @@ const loadGames = () => {
       id: 2,
       startTime: 1648991243,
       category: {
-        categoryId: 1,
+        id: 1,
         name: "Group A",
         order: 1,
       },
@@ -30,7 +30,7 @@ const loadGames = () => {
       id: 3,
       startTime: 1648991243,
       category: {
-        categoryId: 2,
+        id: 2,
         name: "Group B",
         order: 3,
       },
@@ -43,7 +43,7 @@ const loadGames = () => {
       id: 4,
       startTime: 1667469600,
       category: {
-        categoryId: 3,
+        id: 3,
         name: "Group C",
         order: 2,
       },
@@ -56,7 +56,7 @@ const loadGames = () => {
       id: 5,
       startTime: 1667469600,
       category: {
-        categoryId: 3,
+        id: 3,
         name: "Group C",
         order: 2,
       },
@@ -69,7 +69,7 @@ const loadGames = () => {
       id: 6,
       startTime: 1667469600,
       category: {
-        categoryId: 3,
+        id: 3,
         name: "Group C",
         order: 2,
       },
@@ -82,7 +82,7 @@ const loadGames = () => {
       id: 7,
       startTime: 1667469600,
       category: {
-        categoryId: 4,
+        id: 4,
         name: "Group D",
         order: 2,
       },

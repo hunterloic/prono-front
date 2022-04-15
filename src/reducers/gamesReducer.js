@@ -1,6 +1,10 @@
 export default function gameReducer(state = [], action) {
   switch (action.type) {
-    case "SET_PRONOSTIC":
+    case "INIT_GAMES": {
+      const { games } = { ...action.payload };
+      return games;
+    }
+    case "SET_PRONOSTIC": {
       const { gameId, teamId, pronostic } = { ...action.payload };
       const games = [...state];
 
@@ -14,6 +18,7 @@ export default function gameReducer(state = [], action) {
       });
 
       return games;
+    }
     default:
       throw new Error("INVALID GAMES ACTION");
   }

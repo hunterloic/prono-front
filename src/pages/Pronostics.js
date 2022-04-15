@@ -12,6 +12,7 @@ import {
   SearchCountryInput,
   useSearchCountry,
 } from "../hooks/useSearchCountry";
+import { useEffect, useState } from "react";
 
 export default function Pronostics() {
   const { currentGames } = useGames();
@@ -57,7 +58,11 @@ export default function Pronostics() {
       <Row>
         {categories.sort(orderComparator).map((category, index) => (
           <Col md="6" xs="12" key={index}>
-            <Category category={category} style={{ minWidth: "330px" }} />
+            <Category
+              category={category.category}
+              games={category.games}
+              style={{ minWidth: "330px" }}
+            />
           </Col>
         ))}
       </Row>

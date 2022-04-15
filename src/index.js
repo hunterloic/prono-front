@@ -3,12 +3,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { withGamesProvider } from "./hooks/useGames";
-import { loadGames } from "./api/games";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import keycloak from "./Keycloak";
 
 const contextValue = {
-  games: loadGames(),
+  games: [],
   pronostics: [],
 };
 

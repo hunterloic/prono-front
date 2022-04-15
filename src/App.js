@@ -11,13 +11,39 @@ import SecuredRoute from "./components/SecuredRoute";
 import ManageTeams from "./pages/ManageTeams";
 import ManageGames from "./pages/ManageGames";
 import ManageGroups from "./pages/ManageGroups";
-import { useKeycloak } from "@react-keycloak/web";
 import ManageCategories from "./pages/ManageCategories";
+import { useKeycloak } from "@react-keycloak/web";
+import { useEffect } from "react";
+import { useGames } from "./hooks/useGames";
+import { useAxios } from "./hooks/useAxios";
+import { loadGames } from "./api/games";
 
 function App() {
+  const { axios } = useAxios();
   const { initialized } = useKeycloak();
+  const { dispatchGames } = useGames();
   const PronosticWithContext = withSearchCountryProvider(Pronostics);
   const ResultsWithContext = withSearchCountryProvider(Results);
+
+  useEffect(() => {
+    async function fetchGames() {
+      dispatchGames({
+        type: "INIT_GAMES",
+        payload: {
+          games: (await axios.get("/games")).data,
+        },
+      });
+
+      // dispatchGames({
+      //   type: "INIT_GAMES",
+      //   payload: {
+      //     games: loadGames(),
+      //   },
+      // });
+    }
+
+    if (initialized) fetchGames();
+  }, [initialized]);
 
   return !initialized ? (
     "LOADING"

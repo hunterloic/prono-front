@@ -1,4 +1,3 @@
-import { result } from "lodash";
 import { dateToEpoch } from "../utils/date";
 
 export const futurePredicate = (game) =>
@@ -21,10 +20,19 @@ export const pastPredicate = (game) =>
   game.startTime <= dateToEpoch(new Date());
 
 export const groupByCategory = (map, game) => {
-  if (!map[game.category.categoryId]) {
-    map[game.category.categoryId] = [];
+  const filterCategory = (item) => item.category.id === game.category.id;
+  let category = map.filter(filterCategory)[0];
+  if (!category) {
+    map.push({ category: game.category });
+    category = map.filter(filterCategory)[0];
+    category.games = [];
   }
-  map[game.category.categoryId].push(game);
+  category.games.push(game);
+
+  // if (!map[game.category.id]) {
+  //   map[game.category.id] = [];
+  // }
+  // map[game.category.id].push(game);
   return map;
 };
 
