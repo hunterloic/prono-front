@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Pronostics from "./pages/Pronostics";
 import NoPage from "./pages/NoPage";
 import Results from "./pages/Results";
-import { withSearchCountryProvider } from "./hooks/useSearchCountry";
 import LoggedInRoute from "./components/LoggedInRoute";
 import SecuredRoute from "./components/SecuredRoute";
 import ManageTeams from "./pages/ManageTeams";
@@ -16,14 +15,12 @@ import { useKeycloak } from "@react-keycloak/web";
 import { useEffect } from "react";
 import { useGames } from "./hooks/useGames";
 import { useAxios } from "./hooks/useAxios";
-import { loadGames } from "./api/games";
+import { SearchCountryProvider } from "./hooks/useSearchCountry";
 
 function App() {
   const { axios } = useAxios();
   const { initialized } = useKeycloak();
   const { dispatchGames } = useGames();
-  const PronosticWithContext = withSearchCountryProvider(Pronostics);
-  const ResultsWithContext = withSearchCountryProvider(Results);
 
   useEffect(() => {
     async function fetchGames() {
@@ -33,13 +30,6 @@ function App() {
           games: (await axios.get("/games")).data,
         },
       });
-
-      // dispatchGames({
-      //   type: "INIT_GAMES",
-      //   payload: {
-      //     games: loadGames(),
-      //   },
-      // });
     }
 
     if (initialized) fetchGames();
@@ -56,7 +46,9 @@ function App() {
             path="pronostics"
             element={
               <LoggedInRoute>
-                <PronosticWithContext />
+                <SearchCountryProvider>
+                  <Pronostics />
+                </SearchCountryProvider>
               </LoggedInRoute>
             }
           />
@@ -64,7 +56,9 @@ function App() {
             path="results"
             element={
               <LoggedInRoute>
-                <ResultsWithContext />
+                <SearchCountryProvider>
+                  <Results />
+                </SearchCountryProvider>
               </LoggedInRoute>
             }
           />

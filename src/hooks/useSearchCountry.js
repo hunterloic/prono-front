@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
+import { createContext, useContext, useState } from "react";
+import { FormControl } from "react-bootstrap";
 
 const SearchCountryContext = createContext();
 
@@ -14,16 +14,6 @@ const SearchCountryProvider = ({ initialValue = "", children }) => {
   );
 };
 
-const withSearchCountryProvider =
-  (Component) =>
-  ({ searchCountry, ...props }) => {
-    return (
-      <SearchCountryProvider searchCountry={searchCountry}>
-        <Component {...props} />
-      </SearchCountryProvider>
-    );
-  };
-
 const SearchCountryInput = ({ ...props }) => {
   const { searchCountry, setSearchCountry } = useSearchCountry();
   return (
@@ -37,9 +27,4 @@ const SearchCountryInput = ({ ...props }) => {
   );
 };
 
-export {
-  SearchCountryProvider,
-  withSearchCountryProvider,
-  useSearchCountry,
-  SearchCountryInput,
-};
+export { SearchCountryProvider, useSearchCountry, SearchCountryInput };
