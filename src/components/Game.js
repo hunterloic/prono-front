@@ -52,6 +52,7 @@ export default function Game({ id, teams, startTime }) {
               key={index}
               order={index}
               gameId={id}
+              // TODO team.pronostic do not exists, use usePronostics currentPronostics
               goalPronosticOk={team.goal === team.pronostic}
               winner={winnerTeamIdResult === team.id}
               {...rest}
