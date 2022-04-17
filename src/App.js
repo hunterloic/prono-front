@@ -35,6 +35,7 @@ function App() {
       });
     }
 
+    // todo handle 401 error
     async function fetchPronostics() {
       dispatchPronostics({
         type: "INIT_PRONOSTICS",

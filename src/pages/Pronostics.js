@@ -23,7 +23,7 @@ export default function Pronostics() {
 
   const handlePronosticClick = async () => {
     dispatchPronostics({
-      type: "SET_PRONOSTIC",
+      type: "INIT_PRONOSTICS",
       payload: {
         pronostics: [
           ...(
@@ -47,8 +47,9 @@ export default function Pronostics() {
     .filter((game) => countrySearchPredicate(game, searchCountry))
     .reduce(groupByCategory, []);
 
-  const filterUpdatedGames = () => {
-    return currentGames.filter((g) => g.updated);
+  const filterUpdatedPronostics = () => {
+    console.log(currentPronostics);
+    return currentPronostics.filter((p) => p.updated);
   };
 
   return (
@@ -59,11 +60,11 @@ export default function Pronostics() {
             className="my-2"
             variant="success"
             onClick={handlePronosticClick}
-            disabled={filterUpdatedGames().length === 0}
+            disabled={filterUpdatedPronostics().length === 0}
           >
             Submit
           </Button>
-          {filterUpdatedGames().length > 0 && (
+          {filterUpdatedPronostics().length > 0 && (
             <Alert variant="danger" className="my-2 py-1 px-2">
               You have unsubmitted pronostics.
             </Alert>

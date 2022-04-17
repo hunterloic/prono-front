@@ -35,6 +35,7 @@ export default function pronosticsReducer(state = [], action) {
           gameId,
           teamId,
           pronostic,
+          updated: true,
         });
       } else {
         if (pronosticToUpdate.deleted) {
