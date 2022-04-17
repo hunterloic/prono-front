@@ -27,7 +27,7 @@ function App() {
       dispatchGames({
         type: "INIT_GAMES",
         payload: {
-          games: (await axios.get("/games")).data,
+          games: (await axios.get("/game")).data,
         },
       });
     }

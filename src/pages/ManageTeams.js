@@ -11,7 +11,7 @@ export default function ManageTeams() {
   useEffect(() => {
     async function fetchTeams() {
       setTeams([
-        ...(await axios.get("/teams")).data,
+        ...(await axios.get("/team")).data,
         { tempId: getLatestAddedTeam().tempId + 1 },
       ]);
     }
@@ -25,7 +25,7 @@ export default function ManageTeams() {
     setTeams([
       ...(
         await axios.put(
-          "/teams",
+          "/team",
           teams.filter((team) => teamDeletedOrUpdateFilter(team))
         )
       ).data,

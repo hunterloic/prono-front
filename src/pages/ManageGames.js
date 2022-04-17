@@ -14,15 +14,15 @@ export default function ManageGames() {
 
   useEffect(() => {
     async function fetchGames() {
-      setGames([...(await axios.get("/games")).data, createGame()]);
+      setGames([...(await axios.get("/game")).data, createGame()]);
     }
 
     async function fetchCategories() {
-      setCategories((await axios.get("/categories")).data);
+      setCategories((await axios.get("/category")).data);
     }
 
     async function fetchTeams() {
-      setTeams((await axios.get("/teams")).data);
+      setTeams((await axios.get("/team")).data);
     }
 
     fetchGames();
@@ -36,7 +36,7 @@ export default function ManageGames() {
     setGames([
       ...(
         await axios.put(
-          "/games",
+          "/game",
           games.filter((game) => gameDeletedOrUpdateFilter(game))
         )
       ).data,

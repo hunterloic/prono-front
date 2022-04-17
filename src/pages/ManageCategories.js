@@ -9,7 +9,7 @@ export default function ManageCategories() {
   useEffect(() => {
     async function fetchCategories() {
       setCategories([
-        ...(await axios.get("/categories")).data,
+        ...(await axios.get("/category")).data,
         { tempId: getLatestAddedCategory().tempId + 1 },
       ]);
     }
@@ -24,7 +24,7 @@ export default function ManageCategories() {
     setCategories([
       ...(
         await axios.put(
-          "/categories",
+          "/category",
           categories.filter((category) =>
             categoryDeletedOrUpdateFilter(category)
           )
