@@ -22,7 +22,7 @@ function App() {
   const { axios } = useAxios();
   const { initialized } = useKeycloak();
   const { dispatchGames } = useGames();
-  const { currentPronostics, dispatchPronostics } = usePronostics();
+  const { dispatchPronostics } = usePronostics();
 
   // todo try to move fetch in index js ?
   useEffect(() => {
@@ -50,15 +50,10 @@ function App() {
     }
   }, [initialized]);
 
-  const handleClick = () => {
-    console.log(currentPronostics);
-  };
-
   return !initialized ? (
     "LOADING"
   ) : (
     <BrowserRouter>
-      <button onClick={handleClick}>click</button>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
