@@ -20,6 +20,7 @@ const AppWithContext = flowRight(
 
 // Create a root.
 ReactDOMClient.createRoot(document.getElementById("root")).render(
+  // todo : try to add provider in appwithcontext
   <ReactKeycloakProvider authClient={keycloak}>
     <AppWithContext {...contextValue} />
   </ReactKeycloakProvider>

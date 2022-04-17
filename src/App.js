@@ -16,12 +16,15 @@ import { useEffect } from "react";
 import { useGames } from "./hooks/useGames";
 import { useAxios } from "./hooks/useAxios";
 import { SearchCountryProvider } from "./hooks/useSearchCountry";
+import { usePronostics } from "./hooks/usePronostic";
 
 function App() {
   const { axios } = useAxios();
   const { initialized } = useKeycloak();
   const { dispatchGames } = useGames();
+  const { currentPronostics, dispatchPronostics } = usePronostics();
 
+  // todo try to move fetch in index js ?
   useEffect(() => {
     async function fetchGames() {
       dispatchGames({
@@ -32,13 +35,30 @@ function App() {
       });
     }
 
-    if (initialized) fetchGames();
+    async function fetchPronostics() {
+      dispatchPronostics({
+        type: "INIT_PRONOSTICS",
+        payload: {
+          pronostics: (await axios.get("/pronostic")).data,
+        },
+      });
+    }
+
+    if (initialized) {
+      fetchGames();
+      fetchPronostics();
+    }
   }, [initialized]);
+
+  const handleClick = () => {
+    console.log(currentPronostics);
+  };
 
   return !initialized ? (
     "LOADING"
   ) : (
     <BrowserRouter>
+      <button onClick={handleClick}>click</button>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

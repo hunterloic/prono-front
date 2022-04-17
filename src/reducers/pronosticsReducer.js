@@ -1,5 +1,25 @@
 export default function pronosticsReducer(state = [], action) {
   switch (action.type) {
+    case "INIT_PRONOSTICS": {
+      const { pronostics } = { ...action.payload };
+      return pronostics;
+    }
+    case "DELETE_PRONOSTIC": {
+      const { gameId, teamId } = { ...action.payload };
+
+      const pronostics = [...state];
+
+      const pronosticToDelete = pronostics.filter(
+        (p) => p.gameId === gameId && p.teamId === teamId
+      )[0];
+
+      if (pronosticToDelete) {
+        pronosticToDelete.pronostic = null;
+        pronosticToDelete.deleted = true;
+      }
+
+      return pronostics;
+    }
     case "SET_PRONOSTIC": {
       const { gameId, teamId, pronostic } = { ...action.payload };
 
@@ -17,6 +37,9 @@ export default function pronosticsReducer(state = [], action) {
           pronostic,
         });
       } else {
+        if (pronosticToUpdate.deleted) {
+          pronosticToUpdate.deleted = false;
+        }
         pronosticToUpdate.updated = true;
         pronosticToUpdate.pronostic = pronostic;
       }

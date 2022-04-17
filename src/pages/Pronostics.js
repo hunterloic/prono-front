@@ -12,15 +12,35 @@ import {
   SearchCountryInput,
   useSearchCountry,
 } from "../hooks/useSearchCountry";
+import { usePronostics } from "../hooks/usePronostic";
+import { useAxios } from "../hooks/useAxios";
 
 export default function Pronostics() {
+  const { axios } = useAxios();
   const { currentGames } = useGames();
   const { searchCountry } = useSearchCountry();
+  const { currentPronostics, dispatchPronostics } = usePronostics();
 
-  const handlePronosticClick = (e) => {
-    e.preventDefault();
-    alert("click!");
+  const handlePronosticClick = async () => {
+    dispatchPronostics({
+      type: "SET_PRONOSTIC",
+      payload: {
+        pronostics: [
+          ...(
+            await axios.put(
+              "/pronostic",
+              currentPronostics.filter((prono) =>
+                pronosticDeletedOrUpdateFilter(prono)
+              )
+            )
+          ).data,
+        ],
+      },
+    });
   };
+
+  const pronosticDeletedOrUpdateFilter = (prono) =>
+    prono.updated || prono.deleted;
 
   const categories = currentGames
     .filter(futurePredicate)

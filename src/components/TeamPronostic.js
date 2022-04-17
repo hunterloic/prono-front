@@ -1,6 +1,4 @@
 import { Form, Stack } from "react-bootstrap";
-import { getWinnerPronostic } from "../helper/game";
-import { useGames } from "../hooks/useGames";
 import { usePronostics } from "../hooks/usePronostic";
 import CountryFlag from "./CountryFlag";
 
@@ -13,14 +11,24 @@ export default function TeamPronostic({ gameId, teamId, code, name, order }) {
       return;
     }
 
-    dispatchPronostics({
-      type: "SET_PRONOSTIC",
-      payload: {
-        gameId,
-        teamId,
-        pronostic: parseInt(pronostic),
-      },
-    });
+    if (e.target.value.length == 0) {
+      dispatchPronostics({
+        type: "DELETE_PRONOSTIC",
+        payload: {
+          gameId,
+          teamId,
+        },
+      });
+    } else {
+      dispatchPronostics({
+        type: "SET_PRONOSTIC",
+        payload: {
+          gameId,
+          teamId,
+          pronostic: parseInt(pronostic),
+        },
+      });
+    }
   };
 
   const flagOrder = order === 0 ? 1 : 3;
@@ -30,7 +38,8 @@ export default function TeamPronostic({ gameId, teamId, code, name, order }) {
   const getPronostic = () => {
     return (
       currentPronostics.filter(
-        (prono) => prono.gameId === gameId && prono.teamId === teamId
+        (prono) =>
+          prono.gameId === gameId && prono.teamId === teamId && !prono.deleted
       )[0]?.pronostic || ""
     );
   };
