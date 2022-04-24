@@ -28,11 +28,6 @@ export const groupByCategory = (map, game) => {
     category.games = [];
   }
   category.games.push(game);
-
-  // if (!map[game.category.id]) {
-  //   map[game.category.id] = [];
-  // }
-  // map[game.category.id].push(game);
   return map;
 };
 
@@ -71,34 +66,27 @@ export const getWinnerResult = (teams) => {
   return winnerResult;
 };
 
-export const hasPronostic = (teams) => {
-  return (
-    teams.filter((team) => team.pronostic === 0 || team.pronostic).length ===
-    teams.length
-  );
-};
-
-export const isDrawPronostic = (teams) => {
+export const isDrawPronostic = (pronostics) => {
   let result = true;
-  let pronostic = teams[0].pronostic;
-  teams.forEach((team) => {
-    if (team.pronostic !== pronostic) {
+  let pronostic = pronostics[0].pronostic;
+  pronostics.forEach((p) => {
+    if (p.pronostic !== pronostic) {
       result = false;
     }
   });
   return result;
 };
 
-export const getWinnerPronostic = (teams) => {
+export const getWinnerPronostic = (pronostics) => {
   let winnerPronostic = {
-    teamId: teams[0].id,
-    pronostic: teams[0].pronostic,
+    teamId: pronostics[0].teamId,
+    pronostic: pronostics[0].pronostic,
   };
-  teams.forEach((team) => {
-    if (team.pronostic > winnerPronostic.pronostic) {
+  pronostics.forEach((pronostic) => {
+    if (pronostic.pronostic > winnerPronostic.pronostic) {
       winnerPronostic = {
-        teamId: team.id,
-        pronostic: team.pronostic,
+        teamId: pronostic.teamId,
+        pronostic: pronostic.pronostic,
       };
     }
   });

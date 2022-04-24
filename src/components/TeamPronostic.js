@@ -44,6 +44,8 @@ export default function TeamPronostic({ gameId, teamId, code, name, order }) {
     );
   };
 
+  console.log(currentPronostics);
+
   return (
     <Stack direction="horizontal" gap={1}>
       <CountryFlag code={code} className={`order-${flagOrder}`} />

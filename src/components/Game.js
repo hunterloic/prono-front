@@ -1,4 +1,11 @@
-import { Badge, Stack, Alert, Tooltip, OverlayTrigger } from "react-bootstrap";
+import {
+  Badge,
+  Stack,
+  Alert,
+  Tooltip,
+  OverlayTrigger,
+  Row,
+} from "react-bootstrap";
 import { dateToEpoch, epochToDateString } from "../utils/date";
 import TeamResult from "./TeamResult";
 import TeamPronostic from "./TeamPronostic";
@@ -12,20 +19,35 @@ import {
   isPronosticMatchingResult,
 } from "../helper/game";
 import { pointConfig } from "../config/points";
+import { usePronostics } from "../hooks/usePronostic";
 
-export default function Game({ id, teams, startTime }) {
+export default function Game({ id: gameId, teams, startTime }) {
+  const { currentPronostics } = usePronostics();
+
+  const gamePronostics = currentPronostics.filter((p) => p.gameId == gameId);
+
+  const getPronostic = (gameId, teamId) => {
+    return (
+      gamePronostics.filter(
+        (prono) =>
+          prono.gameId === gameId && prono.teamId === teamId && !prono.deleted
+      )[0]?.pronostic || ""
+    );
+  };
+
   const hasResultConst = hasResult(teams);
-  const hasPronosticConst = hasPronostic(teams);
+  const hasPronosticConst = gamePronostics.length === teams.length;
 
   const isDrawResultConst = hasResultConst && isDrawResult(teams);
-  const isDrawPronosticConst = hasPronosticConst && isDrawPronostic(teams);
+  const isDrawPronosticConst =
+    hasPronosticConst && isDrawPronostic(gamePronostics);
 
   const winnerTeamIdResult =
-    hasResultConst && !isDrawResultConst ? getWinnerResult(teams).id : null;
+    hasResultConst && !isDrawResultConst ? getWinnerResult(teams).teamId : null;
 
   const winnerTeamIdPronostic =
     hasPronosticConst && !isDrawPronosticConst
-      ? getWinnerPronostic(teams).id
+      ? getWinnerPronostic(gamePronostics).teamId
       : null;
 
   const pronosticMatchWinner = winnerTeamIdResult === winnerTeamIdPronostic;
@@ -38,24 +60,33 @@ export default function Game({ id, teams, startTime }) {
       </Badge>
       <Stack direction="horizontal" gap={1}>
         {teams.map((team, index) => {
-          const { id: teamId, ...rest } = team;
+          const {
+            id: teamId,
+            code: teamCode,
+            name: teamName,
+            goal: teamGoal,
+          } = team;
+          const pronostic = getPronostic(gameId, teamId);
           return startTime > dateToEpoch(new Date()) ? (
             <TeamPronostic
               key={index}
-              order={index}
-              gameId={id}
+              gameId={gameId}
               teamId={teamId}
-              {...rest}
+              code={teamCode}
+              name={teamName}
+              order={index}
             />
           ) : (
             <TeamResult
               key={index}
               order={index}
-              gameId={id}
-              // TODO team.pronostic do not exists, use usePronostics currentPronostics
-              goalPronosticOk={team.goal === team.pronostic}
+              gameId={gameId}
+              code={teamCode}
+              name={teamName}
+              goal={teamGoal}
+              goalPronosticOk={team.goal === pronostic}
+              pronostic={pronostic}
               winner={winnerTeamIdResult === team.id}
-              {...rest}
             />
           );
         })}
