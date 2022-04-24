@@ -48,7 +48,6 @@ export default function Pronostics() {
     .reduce(groupByCategory, []);
 
   const filterUpdatedPronostics = () => {
-    console.log(currentPronostics);
     return currentPronostics.filter((p) => p.updated);
   };
 

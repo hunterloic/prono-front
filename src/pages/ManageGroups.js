@@ -30,9 +30,6 @@ export default function ManageGroups() {
   const groupIsValidFilter = (group) => group.name !== "";
 
   const handleUpdateGroups = async () => {
-    console.log(
-      groups.filter(groupDeletedOrUpdateFilter).filter(groupIsValidFilter)
-    );
     setGroups([
       ...(
         await axios.put(

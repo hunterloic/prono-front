@@ -33,8 +33,6 @@ export default function ManageMembers({ show, members = [], onClose, onSave }) {
     ]);
   };
 
-  console.log(members);
-
   return (
     <>
       <Modal show={show} onHide={onClose}>
