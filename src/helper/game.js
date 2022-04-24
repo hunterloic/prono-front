@@ -93,11 +93,13 @@ export const getWinnerPronostic = (pronostics) => {
   return winnerPronostic;
 };
 
-export const isPronosticMatchingResult = (teams) => {
+export const isPronosticMatchingResult = (teams, pronostics) => {
   let result = true;
 
   teams.forEach((team) => {
-    result = result && team.goal === team.pronostic;
+    const pronostic = pronostics.filter((p) => p.teamId == team.id)[0]
+      ?.pronostic;
+    result = pronostic !== undefined && result && team.goal === pronostic;
   });
 
   return result;

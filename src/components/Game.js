@@ -51,7 +51,7 @@ export default function Game({ id: gameId, teams, startTime }) {
       : null;
 
   const pronosticMatchWinner = winnerTeamIdResult === winnerTeamIdPronostic;
-  const pronosticMatchScore = isPronosticMatchingResult(teams);
+  const pronosticMatchScore = isPronosticMatchingResult(teams, gamePronostics);
 
   return (
     <Stack direction="vertical">
