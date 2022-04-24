@@ -5,18 +5,15 @@ import { useAxios } from "../hooks/useAxios";
 
 export default function ManageGroups() {
   const [groups, setGroups] = useState([]);
-  const [groupMembersModal, setgroupMembersModal] = useState({
-    show: false,
-    group: {},
-  });
   const { axios } = useAxios();
+  const [memberModal, setMemberModal] = useState();
 
   useEffect(() => {
     async function fetchGroups() {
-      setGroups([...(await axios.get("/group")).data, , createNewGroup()]);
+      setGroups([...(await axios.get("/group")).data, createNewGroup()]);
     }
 
-    // fetchGroups();
+    fetchGroups();
   }, []);
 
   const createNewGroup = () => {
@@ -30,12 +27,17 @@ export default function ManageGroups() {
 
   const groupDeletedOrUpdateFilter = (group) => group.updated || group.deleted;
 
+  const groupIsValidFilter = (group) => group.name !== "";
+
   const handleUpdateGroups = async () => {
+    console.log(
+      groups.filter(groupDeletedOrUpdateFilter).filter(groupIsValidFilter)
+    );
     setGroups([
       ...(
         await axios.put(
           "/group",
-          groups.filter((group) => groupDeletedOrUpdateFilter(group))
+          groups.filter(groupDeletedOrUpdateFilter).filter(groupIsValidFilter)
         )
       ).data,
       createNewGroup(),
@@ -43,9 +45,9 @@ export default function ManageGroups() {
   };
 
   const filterGroupsById = (groups, group) => {
-    return groups.filter((c) => {
-      if (group.id) return c.id === group.id;
-      if (group.tempId) return c.tempId === group.tempId;
+    return groups.filter((g) => {
+      if (group.id) return g.id === group.id;
+      if (group.tempId) return g.tempId === group.tempId;
       return false;
     })[0];
   };
@@ -86,14 +88,13 @@ export default function ManageGroups() {
     setGroups(newGroups);
   };
 
-  const [modal, setModal] = useState();
   const handleClickMembers = (group) => {
-    setModal(
+    setMemberModal(
       <ManageMembers
         show={true}
         members={group.members}
         onClose={() => {
-          setModal(null);
+          setMemberModal(null);
         }}
         onSave={(members) => {
           const newGroups = [...groups];
@@ -101,7 +102,7 @@ export default function ManageGroups() {
           groupToUpdate.updated = true;
           groupToUpdate.members = members;
           setGroups(newGroups);
-          setModal(null);
+          setMemberModal(null);
         }}
       />
     );
@@ -109,7 +110,7 @@ export default function ManageGroups() {
 
   return (
     <Container>
-      {modal}
+      {memberModal}
       <Stack direction="vertical" gap={2} className="my-2">
         <Button
           variant="success"
