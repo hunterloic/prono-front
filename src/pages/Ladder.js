@@ -10,6 +10,7 @@ import {
   Modal,
   Row,
   Stack,
+  Table,
 } from "react-bootstrap";
 import { useAxios } from "../hooks/useAxios";
 
@@ -75,6 +76,8 @@ export default function Ladder() {
       });
   };
 
+  const handleClickUser = () => {};
+
   return (
     <Container className="mx-10">
       {info && (
@@ -134,15 +137,29 @@ export default function Ladder() {
                       </div>
                     </Stack>
                   </Card.Header>
-                  <ListGroup>
-                    {group.members
-                      .sort((a, b) => a.points - b.points)
-                      .map((member) => (
-                        <ListGroup.Item key={member.userName} className="p-1">
-                          {member.userName} - {member.points}
-                        </ListGroup.Item>
-                      ))}
-                  </ListGroup>
+                  <Table striped bordered hover className={"m-0"}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Points</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {group.members
+                        .sort((a, b) => b.points - a.points)
+                        .map((member, index) => (
+                          <tr
+                            style={{ cursor: "pointer" }}
+                            onClick={handleClickUser}
+                          >
+                            <td>{index + 1}</td>
+                            <td>{member.userName}</td>
+                            <td>{member.points}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </Table>
                 </Card>
               </Col>
             );

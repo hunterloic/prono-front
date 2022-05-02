@@ -38,7 +38,7 @@ export default function Results() {
       <Stack direction="vertical" gap={2}>
         <div>
           <Alert variant="info" className="mx-1 my-2 p-2">
-            <b>You have {points} points.</b>
+            <b>Total points : {points}</b>
           </Alert>
         </div>
         <div>
