@@ -17,6 +17,7 @@ import { useGames } from "./hooks/useGames";
 import { useAxios } from "./hooks/useAxios";
 import { SearchCountryProvider } from "./hooks/useSearchCountry";
 import { usePronostics } from "./hooks/usePronostic";
+import Ladder from "./pages/Ladder";
 
 function App() {
   const { axios } = useAxios();
@@ -75,6 +76,14 @@ function App() {
                 <SearchCountryProvider>
                   <Results />
                 </SearchCountryProvider>
+              </LoggedInRoute>
+            }
+          />
+          <Route
+            path="ladder"
+            element={
+              <LoggedInRoute>
+                <Ladder />
               </LoggedInRoute>
             }
           />

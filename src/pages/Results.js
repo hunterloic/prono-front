@@ -16,7 +16,7 @@ import { useAxios } from "../hooks/useAxios";
 
 export default function Results() {
   const { axios } = useAxios();
-  const [points, setPoints] = useState([]);
+  const [points, setPoints] = useState(0);
   const { currentGames } = useGames();
   const { searchCountry } = useSearchCountry();
 

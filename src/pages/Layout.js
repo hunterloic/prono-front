@@ -61,6 +61,9 @@ function Layout() {
                   <Nav.Link as={Link} to={"/results"}>
                     Results
                   </Nav.Link>
+                  <Nav.Link as={Link} to={"/ladder"}>
+                    Ladder
+                  </Nav.Link>
                 </>
               )}
 
