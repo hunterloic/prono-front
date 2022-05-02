@@ -13,18 +13,37 @@ import {
   useSearchCountry,
 } from "../hooks/useSearchCountry";
 import { useAxios } from "../hooks/useAxios";
+import { usePronostics } from "../hooks/usePronostic";
 
-export default function Results() {
+export default function Results({ userName }) {
   const { axios } = useAxios();
   const [points, setPoints] = useState(0);
-  const { currentGames } = useGames();
   const { searchCountry } = useSearchCountry();
+  const [currentGames, setCurrentGames] = useState([]);
+  const { dispatchPronostics } = usePronostics();
 
   useEffect(() => {
     async function fetchPoints() {
-      setPoints((await axios.get("/ladder/user")).data);
+      const urlParams = userName ? `userName=${userName}` : "";
+      setPoints((await axios.get(`/ladder/user?${urlParams}`)).data);
     }
 
+    async function fetchPronostics() {
+      const urlParams = userName ? `userName=${userName}` : "";
+      dispatchPronostics({
+        type: "INIT_PRONOSTICS",
+        payload: {
+          pronostics: (await axios.get(`/pronostic?${urlParams}`)).data,
+        },
+      });
+    }
+
+    async function fetchGames() {
+      setCurrentGames((await axios.get("/game")).data);
+    }
+
+    fetchGames();
+    fetchPronostics();
     fetchPoints();
   }, []);
 
@@ -38,7 +57,14 @@ export default function Results() {
       <Stack direction="vertical" gap={2}>
         <div>
           <Alert variant="info" className="mx-1 my-2 p-2">
-            <b>Total points : {points}</b>
+            {userName && (
+              <div>
+                <b>User : {userName}</b>
+              </div>
+            )}
+            <div>
+              <b>Total points : {points}</b>
+            </div>
           </Alert>
         </div>
         <div>

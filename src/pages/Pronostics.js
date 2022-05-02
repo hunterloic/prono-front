@@ -14,12 +14,31 @@ import {
 } from "../hooks/useSearchCountry";
 import { usePronostics } from "../hooks/usePronostic";
 import { useAxios } from "../hooks/useAxios";
+import { useEffect, useState } from "react";
 
 export default function Pronostics() {
   const { axios } = useAxios();
-  const { currentGames } = useGames();
   const { searchCountry } = useSearchCountry();
   const { currentPronostics, dispatchPronostics } = usePronostics();
+  const [currentGames, setCurrentGames] = useState([]);
+
+  useEffect(() => {
+    async function fetchPronostics() {
+      dispatchPronostics({
+        type: "INIT_PRONOSTICS",
+        payload: {
+          pronostics: (await axios.get(`/pronostic`)).data,
+        },
+      });
+    }
+
+    async function fetchGames() {
+      setCurrentGames((await axios.get("/game")).data);
+    }
+
+    fetchGames();
+    fetchPronostics();
+  });
 
   const handlePronosticClick = async () => {
     dispatchPronostics({

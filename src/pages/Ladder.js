@@ -6,12 +6,13 @@ import {
   Col,
   Container,
   Form,
-  ListGroup,
   Modal,
+  Nav,
   Row,
   Stack,
   Table,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useAxios } from "../hooks/useAxios";
 
 export default function Ladder() {
@@ -143,19 +144,22 @@ export default function Ladder() {
                         <th>#</th>
                         <th>Name</th>
                         <th>Points</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       {group.members
                         .sort((a, b) => b.points - a.points)
                         .map((member, index) => (
-                          <tr
-                            style={{ cursor: "pointer" }}
-                            onClick={handleClickUser}
-                          >
+                          <tr onClick={handleClickUser} key={index}>
                             <td>{index + 1}</td>
                             <td>{member.userName}</td>
                             <td>{member.points}</td>
+                            <td>
+                              <Link to={`/results?userName=${member.userName}`}>
+                                See
+                              </Link>
+                            </td>
                           </tr>
                         ))}
                     </tbody>
